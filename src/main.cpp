@@ -34,6 +34,7 @@ void Greedy(int customers, int vehicles, std::vector<std::vector<int> > matriz);
 void Grasp (int customers, int vehicles, std::vector<std::vector<int> > matriz);
 void generateRLC(std::vector<int>& RLCR, std::vector<int>& RLCV, std::vector<int> fila, int size_RLC);
 bool isEmpty(std::vector<std::vector<int> > matrix);
+void IntercambioIntraRuta(std::vector<std::vector<int> > matrix, std::vector<int> ruta, int distancia, int vehicles);
 
 /**
 Función main en la que vamos a recibir como argumentos en la llamada al programa, el fichero de entrada de datos, vamos a almacenar su contenido en las variables 
@@ -242,6 +243,7 @@ void Greedy(int customers, int vehicles ,std::vector<std::vector<int> > matriz) 
   float prueba = 0;
   prueba = (customers / vehicles) + (customers * 0.1);
   size_route = ceil(prueba);
+  std::vector<std::vector<int> > copia_matrix = matriz;
 
 
 std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" << std::endl;
@@ -312,10 +314,11 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
           std::cout << rutafinal[j] << " ";
         }
         std::cout << std::endl;
-        exit(0);
+        break;
       }
     }
   }
+  IntercambioIntraRuta(copia_matrix,rutafinal,distanciaTotal,vehicles);
 }
 
 /**
@@ -458,5 +461,58 @@ bool isEmpty(std::vector<std::vector<int> > matrix) {
   }
   }
   return true;
+}
+
+void IntercambioIntraRuta(std::vector<std::vector<int> > matrix, std::vector<int> ruta, int distancia, int vehicles){
+
+  /*for(int l = 0; l < ruta.size(); l ++){
+    std::cout << ruta[l] << " ";
+  }
+  std::cout << std::endl;
+  std::cout << distancia << std::endl;
+*/
+//for( int x = 0; x < vehicles ; x++){}
+std::vector<int> copia_ruta;
+copia_ruta = ruta;
+int contador = 0;
+int aux = 0;
+int resta = 0;
+int suma = 0;
+int copia_distancia = 0;
+copia_distancia = distancia;
+for(int i = 1; i < copia_ruta.size(); i++){
+  copia_ruta = ruta;
+  if(copia_ruta[i] == 0){
+    i++;
+    contador++;
+    if(contador == vehicles){
+      break;
+    }
+  }
+  for(int j = i+1; j < copia_ruta.size(); j++){
+    copia_ruta = ruta;
+    if(copia_ruta[j] == 0){
+      break;
+    }else{
+      std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
+      resta = 0;
+      resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+      std::cout << "resta: " << resta << std::endl;
+      aux = copia_ruta[i];
+      copia_ruta[i] = copia_ruta[j];
+      copia_ruta[j] = aux;
+      int suma = 0;
+      suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+      std::cout << "suma: " << suma << std::endl;
+      for(int l = 0; l < copia_ruta.size(); l ++){
+    std::cout << copia_ruta[l] << " ";
+  }
+  std::cout << std::endl;
+  copia_distancia = copia_distancia - resta + suma;
+  std::cout << "pepe: " << copia_distancia << std::endl;
+    }
+    
+  }
+}
 }
 #endif
