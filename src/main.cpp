@@ -504,41 +504,41 @@ for(int i = 1; i < copia_ruta.size(); i++){
     if(copia_ruta[j] == 0){
       break;
     }else{
-      std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
+      //std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
       if(copia_ruta[i+1] == copia_ruta[j]){
         resta = 0;
         resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
-        std::cout << "resta: " << resta << std::endl;
+        //std::cout << "resta: " << resta << std::endl;
         aux = copia_ruta[i];
         copia_ruta[i] = copia_ruta[j];
         copia_ruta[j] = aux;
         suma = 0;
         suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
-        std::cout << "suma: " << suma << std::endl;
-          for(int l = 0; l < copia_ruta.size(); l ++){
-            std::cout << copia_ruta[l] << " ";
-          }
-        std::cout << std::endl;
+        //std::cout << "suma: " << suma << std::endl;
+          //for(int l = 0; l < copia_ruta.size(); l ++){
+            //std::cout << copia_ruta[l] << " ";
+          //}
+        //std::cout << std::endl;
       }
       if(copia_ruta[i+1] != copia_ruta[j]){
         resta = 0;
         resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
-        std::cout << "resta: " << resta << std::endl;
+        //std::cout << "resta: " << resta << std::endl;
         aux = copia_ruta[i];
         copia_ruta[i] = copia_ruta[j];
         copia_ruta[j] = aux;
         suma = 0;
         suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
-        std::cout << "suma: " << suma << std::endl;
-          for(int l = 0; l < copia_ruta.size(); l ++){
-            std::cout << copia_ruta[l] << " ";
-          }
-        std::cout << std::endl;
+        //std::cout << "suma: " << suma << std::endl;
+          //for(int l = 0; l < copia_ruta.size(); l ++){
+            //std::cout << copia_ruta[l] << " ";
+          //}
+        //std::cout << std::endl;
       }
-  std::cout << "aaaa: " << copia_distancia<< std::endl;
+  //std::cout << "aaaa: " << copia_distancia<< std::endl;
   resultadoIntermedio = suma - resta;
   copia_distancia = copia_distancia + (suma - resta);
-  std::cout << "pepe: " << copia_distancia << std::endl;
+  //std::cout << "pepe: " << copia_distancia << std::endl;
   if(copia_distancia < distancia_final){
     distancia_final = copia_distancia;
     ruta_final = copia_ruta;
@@ -604,24 +604,24 @@ int contj = 0;
     if(copia_ruta[j] == 0){
       break;
     }else{
-      std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
+      //std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
       resta = 0;
         resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
-        std::cout << "resta: " << resta << std::endl;
+        //std::cout << "resta: " << resta << std::endl;
         aux = copia_ruta[i];
         copia_ruta[i] = copia_ruta[j];
         copia_ruta[j] = aux;
         suma = 0;
         suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
-        std::cout << "suma: " << suma << std::endl;
-          for(int l = 0; l < copia_ruta.size(); l ++){
-            std::cout << copia_ruta[l] << " ";
-          }
-        std::cout << std::endl;
-        std::cout << "aaaa: " << copia_distancia<< std::endl;
+        //std::cout << "suma: " << suma << std::endl;
+          //for(int l = 0; l < copia_ruta.size(); l ++){
+            //std::cout << copia_ruta[l] << " ";
+          //}
+        //std::cout << std::endl;
+        //std::cout << "aaaa: " << copia_distancia<< std::endl;
   resultadoIntermedio = suma - resta;
   copia_distancia = copia_distancia + (suma - resta);
-  std::cout << "pepe: " << copia_distancia << std::endl;
+  //std::cout << "pepe: " << copia_distancia << std::endl;
   if(copia_distancia < distancia_final){
     distancia_final = copia_distancia;
     ruta_final = copia_ruta;
