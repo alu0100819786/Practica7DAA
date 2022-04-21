@@ -35,6 +35,7 @@ void Grasp (int customers, int vehicles, std::vector<std::vector<int> > matriz);
 void generateRLC(std::vector<int>& RLCR, std::vector<int>& RLCV, std::vector<int> fila, int size_RLC);
 bool isEmpty(std::vector<std::vector<int> > matrix);
 void IntercambioIntraRuta(std::vector<std::vector<int> > matrix, std::vector<int> ruta, int distancia, int vehicles);
+void IntercambioEntreRutas(std::vector<std::vector<int> > matrix, std::vector<int> ruta, int distancia, int vehicles);
 
 /**
 Función main en la que vamos a recibir como argumentos en la llamada al programa, el fichero de entrada de datos, vamos a almacenar su contenido en las variables 
@@ -319,6 +320,7 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
     }
   }
   IntercambioIntraRuta(copia_matrix,rutafinal,distanciaTotal,vehicles);
+  IntercambioEntreRutas(copia_matrix,rutafinal,distanciaTotal,vehicles);
 }
 
 /**
@@ -428,6 +430,7 @@ void Grasp(int customers, int vehicles ,std::vector<std::vector<int> > matriz){
   }
   std::cout << std::endl;
   IntercambioIntraRuta(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  IntercambioEntreRutas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
 }
 
 /**
@@ -555,6 +558,91 @@ for(int m = 0; m < ruta_final.size(); m ++){
   }
 std::cout << std::endl;
 std::cout << "Con una distancia de: " << distancia_final << std::endl;
+std::cout << "-----------------------------------------------------" << std::endl;
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
+}
+
+void IntercambioEntreRutas(std::vector<std::vector<int> > matrix, std::vector<int> ruta, int distancia, int vehicles){
+
+std::vector<int> copia_ruta;
+std::vector<int> ruta_final;
+ruta_final = ruta;
+int distancia_final;
+distancia_final = distancia;
+copia_ruta = ruta;
+int contador = 0;
+int aux = 0;
+int resultadoIntermedio = 0;
+int resta = 0;
+int suma = 0;
+int copia_distancia = 0;
+copia_distancia = distancia;
+int conthastacero = 1;
+int contj = 0;
+
+  for(int i = 1; i < copia_ruta.size(); i ++){
+    copia_ruta = ruta;
+    if(copia_ruta[i] == 0){
+      i++;
+      contador++;
+    }
+    if(contador == vehicles){
+      break;
+    }
+    for(int z=i+1;z<copia_ruta.size();z++){
+      if(copia_ruta[z] != 0){
+        conthastacero++;
+      }
+      if(copia_ruta[z] == 0){
+        break;
+      }
+    }
+    contj = i + conthastacero + 1;
+    conthastacero = 1;
+  for(int j=contj; j<copia_ruta.size();j++){
+    copia_ruta = ruta;
+    if(copia_ruta[j] == 0){
+      break;
+    }else{
+      std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
+      resta = 0;
+        resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        std::cout << "resta: " << resta << std::endl;
+        aux = copia_ruta[i];
+        copia_ruta[i] = copia_ruta[j];
+        copia_ruta[j] = aux;
+        suma = 0;
+        suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        std::cout << "suma: " << suma << std::endl;
+          for(int l = 0; l < copia_ruta.size(); l ++){
+            std::cout << copia_ruta[l] << " ";
+          }
+        std::cout << std::endl;
+        std::cout << "aaaa: " << copia_distancia<< std::endl;
+  resultadoIntermedio = suma - resta;
+  copia_distancia = copia_distancia + (suma - resta);
+  std::cout << "pepe: " << copia_distancia << std::endl;
+  if(copia_distancia < distancia_final){
+    distancia_final = copia_distancia;
+    ruta_final = copia_ruta;
+    copia_distancia = distancia;
+    copia_ruta = ruta;
+  }else{
+    copia_distancia = distancia;
+    copia_ruta = ruta;
+  }
+    }
+
+  }
+  }
+  std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio EntreRutas es: " << std::endl;
+for(int m = 0; m < ruta_final.size(); m ++){
+    std::cout << ruta_final[m] << " ";
+  }
+std::cout << std::endl;
+std::cout << "Con una distancia de: " << distancia_final << std::endl;
+std::cout << "-----------------------------------------------------" << std::endl;
+//Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
+
 }
 #endif
