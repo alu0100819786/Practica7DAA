@@ -473,9 +473,13 @@ void IntercambioIntraRuta(std::vector<std::vector<int> > matrix, std::vector<int
 */
 //for( int x = 0; x < vehicles ; x++){}
 std::vector<int> copia_ruta;
+std::vector<int> ruta_final;
+int distancia_final;
+distancia_final = distancia;
 copia_ruta = ruta;
 int contador = 0;
 int aux = 0;
+int resultadoIntermedio = 0;
 int resta = 0;
 int suma = 0;
 int copia_distancia = 0;
@@ -495,24 +499,59 @@ for(int i = 1; i < copia_ruta.size(); i++){
       break;
     }else{
       std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
-      resta = 0;
-      resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
-      std::cout << "resta: " << resta << std::endl;
-      aux = copia_ruta[i];
-      copia_ruta[i] = copia_ruta[j];
-      copia_ruta[j] = aux;
-      int suma = 0;
-      suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
-      std::cout << "suma: " << suma << std::endl;
-      for(int l = 0; l < copia_ruta.size(); l ++){
-    std::cout << copia_ruta[l] << " ";
-  }
-  std::cout << std::endl;
-  copia_distancia = copia_distancia - resta + suma;
+      if(copia_ruta[i+1] == copia_ruta[j]){
+        resta = 0;
+        resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        std::cout << "resta: " << resta << std::endl;
+        aux = copia_ruta[i];
+        copia_ruta[i] = copia_ruta[j];
+        copia_ruta[j] = aux;
+        suma = 0;
+        suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        std::cout << "suma: " << suma << std::endl;
+          for(int l = 0; l < copia_ruta.size(); l ++){
+            std::cout << copia_ruta[l] << " ";
+          }
+        std::cout << std::endl;
+      }
+      if(copia_ruta[i+1] != copia_ruta[j]){
+        resta = 0;
+        resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        std::cout << "resta: " << resta << std::endl;
+        aux = copia_ruta[i];
+        copia_ruta[i] = copia_ruta[j];
+        copia_ruta[j] = aux;
+        suma = 0;
+        suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        std::cout << "suma: " << suma << std::endl;
+          for(int l = 0; l < copia_ruta.size(); l ++){
+            std::cout << copia_ruta[l] << " ";
+          }
+        std::cout << std::endl;
+      }
+  std::cout << "aaaa: " << copia_distancia<< std::endl;
+  resultadoIntermedio = suma - resta;
+  copia_distancia = copia_distancia + (suma - resta);
   std::cout << "pepe: " << copia_distancia << std::endl;
+  if(copia_distancia < distancia_final){
+    distancia_final = copia_distancia;
+    ruta_final = copia_ruta;
+    copia_distancia = distancia;
+    copia_ruta = ruta;
+  }else{
+    copia_distancia = distancia;
+    copia_ruta = ruta;
+  }
     }
     
   }
 }
+std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio IntraRuta es: " << std::endl;
+for(int m = 0; m < ruta_final.size(); m ++){
+    std::cout << ruta_final[m] << " ";
+  }
+std::cout << std::endl;
+std::cout << "Con una distancia de: " << distancia_final << std::endl;
+//Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
 }
 #endif
