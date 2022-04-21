@@ -33,6 +33,7 @@ std::string deleteWhiteSpacesSurround(std::string str);
 void Greedy(int customers, int vehicles, std::vector<std::vector<int> > matriz);
 void Grasp (int customers, int vehicles, std::vector<std::vector<int> > matriz);
 void generateRLC(std::vector<int>& RLCR, std::vector<int>& RLCV, std::vector<int> fila, int size_RLC);
+bool isEmpty(std::vector<std::vector<int> > matrix);
 
 /**
 Función main en la que vamos a recibir como argumentos en la llamada al programa, el fichero de entrada de datos, vamos a almacenar su contenido en las variables 
@@ -101,7 +102,7 @@ int main(int argc, char *argv[]) {
 
   if (useGreedy()) {
     Greedy(n_customers, n_vehicles, matrix);
-  } else {
+  }else {
     Grasp(n_customers, n_vehicles, matrix);
   }
 };
@@ -238,11 +239,10 @@ desde la nueva fila asociada al vecino que acabamos de recoger e iremos rellenan
 */
 void Greedy(int customers, int vehicles ,std::vector<std::vector<int> > matriz) {
   int size_route = 0;
-  if ((customers % vehicles) == 0) {
-    size_route = customers / vehicles;
-  } else {
-    size_route = customers / vehicles + 1;
-  }
+  float prueba = 0;
+  prueba = (customers / vehicles) + (customers * 0.1);
+  size_route = ceil(prueba);
+
 
 std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" << std::endl;
 	std::cout << "___________________________________________________________________" << std::endl;
@@ -286,24 +286,22 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
       std::cout << std::endl;
     }*/
 
-    if (contador == size_route) {
+    if (contador == size_route || isEmpty(matriz)) {
       i = -1;
       rutaParcial.push_back(0);
       valorParcial.push_back(matriz[elemento][0]);
 
       int distancia = 0;
-      for (int j = 0; j < size_route + 1; j++) {
+      for (int j = 0; j < rutaParcial.size(); j++) {
         rutafinal.push_back(rutaParcial[j]);
         distancia += valorParcial[j];
       }
-
       contruta++;
       rutaParcial.clear();
       valorParcial.clear();
       distanciaTotal += distancia;
 
       contador = 0;
-
       if (contruta == vehicles) {
         std::cout << std::endl;
         long totalTime = getCurrentTime() - start;
@@ -329,11 +327,9 @@ almacenando la mejor, para así poder dar un resultado final a la hora de finali
 void Grasp(int customers, int vehicles ,std::vector<std::vector<int> > matriz){
   srand(time(NULL));
   int size_route = 0;
-  if ((customers % vehicles) == 0){
-    size_route = customers / vehicles;
-  } else {
-    size_route = customers / vehicles + 1;
-  }
+  float prueba = 0;
+  prueba = (customers / vehicles) + (customers * 0.1);
+  size_route = ceil(prueba);
 
   int iterations = getNumberIterations();
   int RLCSize = getRLCVectorSize();
@@ -382,13 +378,13 @@ void Grasp(int customers, int vehicles ,std::vector<std::vector<int> > matriz){
       i = elemento -1;
       contador++;//
       
-      if (contador == size_route) {
+      if (contador == size_route || isEmpty(matrix)) {
         i = -1;
         rutaParcial.push_back(0);
         valorParcial.push_back(matrix[elemento][0]);
 
         int distancia = 0;
-        for (int j = 0; j < size_route + 1; j++) {
+        for (int j = 0; j < rutaParcial.size(); j++) {
           rutafinal.push_back(rutaParcial[j]);
           distancia += valorParcial[j];
         }
@@ -451,5 +447,16 @@ void generateRLC(std::vector<int>& RLCR, std::vector<int>& RLCV, std::vector<int
       RLCV.push_back(minimo);
     }
   }
+}
+
+bool isEmpty(std::vector<std::vector<int> > matrix) {
+  for (int i = 0; i < matrix.size(); i++) {
+    for(int j = 1; j < matrix.size(); j++){
+    if (matrix[i][j] != 0) {
+      return false;
+    }
+  }
+  }
+  return true;
 }
 #endif
