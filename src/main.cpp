@@ -351,6 +351,7 @@ void Grasp(int customers, int vehicles ,std::vector<std::vector<int> > matriz){
   int distanciaTotal = 0;
   int contruta = 0;
   int contador = 0;
+  std::vector<std::vector<int> > copia_matrix = matriz;
   while ((contadorIteraciones < iterations) && (contadorNoImprove != noImprove)) {
     std::vector<std::vector<int> > matrix = matriz;
     std::vector<int> rutafinal(1,0);
@@ -426,6 +427,7 @@ void Grasp(int customers, int vehicles ,std::vector<std::vector<int> > matriz){
     std::cout << rutaSolucion[i] << " ";
   }
   std::cout << std::endl;
+  IntercambioIntraRuta(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
 }
 
 /**
@@ -474,6 +476,7 @@ void IntercambioIntraRuta(std::vector<std::vector<int> > matrix, std::vector<int
 //for( int x = 0; x < vehicles ; x++){}
 std::vector<int> copia_ruta;
 std::vector<int> ruta_final;
+ruta_final = ruta;
 int distancia_final;
 distancia_final = distancia;
 copia_ruta = ruta;
