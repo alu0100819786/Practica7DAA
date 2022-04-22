@@ -321,8 +321,8 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
       }
     }
   }
-  //IntercambioIntraRuta(copia_matrix,rutafinal,distanciaTotal,vehicles);
-  //IntercambioEntreRutas(copia_matrix,rutafinal,distanciaTotal,vehicles);
+  IntercambioIntraRuta(copia_matrix,rutafinal,distanciaTotal,vehicles);
+  IntercambioEntreRutas(copia_matrix,rutafinal,distanciaTotal,vehicles);
   InsercionIntraRuta(copia_matrix,rutafinal,distanciaTotal,vehicles);
   InsercionEntreRutas(copia_matrix,rutafinal,distanciaTotal,vehicles);
 }
@@ -433,9 +433,10 @@ void Grasp(int customers, int vehicles ,std::vector<std::vector<int> > matriz){
     std::cout << rutaSolucion[i] << " ";
   }
   std::cout << std::endl;
-  //IntercambioIntraRuta(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  //IntercambioEntreRutas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  IntercambioIntraRuta(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  IntercambioEntreRutas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   InsercionIntraRuta(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  InsercionEntreRutas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
 }
 
 /**
