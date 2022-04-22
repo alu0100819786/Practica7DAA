@@ -437,6 +437,7 @@ void Grasp(int customers, int vehicles ,std::vector<std::vector<int> > matriz){
   IntercambioEntreRutas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   InsercionIntraRuta(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   InsercionEntreRutas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  
 }
 
 /**
@@ -761,5 +762,84 @@ std::cout << "-----------------------------------------------------" << std::end
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
 
 }
-void InsercionEntreRutas(std::vector<std::vector<int> > matrix, std::vector<int> ruta, int distancia, int vehicles){}
+void InsercionEntreRutas(std::vector<std::vector<int> > matrix, std::vector<int> ruta, int distancia, int vehicles){
+  std::vector<int> copia_ruta = ruta;
+  std::vector<int> ruta_final = ruta;
+  int distancia_final = distancia;
+  int contador = 0;
+  int aux = 0;
+  int resultadoIntermedio = 0;
+  int resta = 0;
+  int suma = 0;
+  int copia_distancia = distancia;
+  int conthastacero = 1;
+  int contj = 0;
+
+  for(int i = 1; i < copia_ruta.size(); i ++){
+    copia_ruta = ruta;
+    if (copia_ruta[i] == 0) {
+      i++;
+      contador++;
+    }
+    if (contador == vehicles) {
+      break;
+    }
+    for (int z=i+1; z<copia_ruta.size(); z++) {
+      if(copia_ruta[z] != 0){
+        conthastacero++;
+      }
+      if(copia_ruta[z] == 0){
+        break;
+      }
+    }
+    contj = i + conthastacero + 1;
+    conthastacero = 1;
+    for (int j=contj; j<copia_ruta.size(); j++) {
+      copia_ruta = ruta;
+      //std::cout <<"cambio: " << copia_ruta[i] << " en: " << j << std::endl;
+      resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]];
+      /*std::cout << "resta= ";
+      std::cout << matrix[copia_ruta[i-1]][copia_ruta[i]] << "(" << copia_ruta[i-1] << "," << copia_ruta[i] << ")";
+      std::cout << " + " << matrix[copia_ruta[i]][copia_ruta[i+1]] << "(" << copia_ruta[i] << "," << copia_ruta[i+1] << ")";
+      std::cout << " + " << matrix[copia_ruta[j-1]][copia_ruta[j]] << "(" << copia_ruta[j-1] << "," << copia_ruta[j] << ")";
+      std::cout << " = " << resta << std::endl;*/
+        
+      aux = copia_ruta[i];
+      copia_ruta.erase(copia_ruta.begin() + i);
+      copia_ruta.insert(copia_ruta.begin() + j - 1, aux);
+
+      suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[j-2]][copia_ruta[j-1]] + matrix[copia_ruta[j-1]][copia_ruta[j]];
+      /*std::cout << "suma= ";
+      std::cout << matrix[copia_ruta[i-1]][copia_ruta[i]] << "(" << copia_ruta[i-1] << "," << copia_ruta[i] << ")";
+      std::cout << " + " << matrix[copia_ruta[j-2]][copia_ruta[j-1]] << "(" << copia_ruta[j-2] << "," << copia_ruta[j-1] << ")";
+      std::cout << " + " << matrix[copia_ruta[j-1]][copia_ruta[j]] << "(" << copia_ruta[j-1] << "," << copia_ruta[j] << ")";
+      std::cout << " = " << suma << std::endl;
+      for(int l = 0; l < copia_ruta.size(); l ++){
+        std::cout << copia_ruta[l] << " ";
+      }
+      std::cout << std::endl;*/
+      //std::cout << "aaaa: " << copia_distancia<< std::endl;
+      resultadoIntermedio = suma - resta;
+      copia_distancia = copia_distancia + (suma - resta);
+      //std::cout << "pepe: " << copia_distancia << std::endl;
+      if(copia_distancia < distancia_final){
+        distancia_final = copia_distancia;
+        ruta_final = copia_ruta;
+        copia_distancia = distancia;
+        copia_ruta = ruta;
+      }else{
+        copia_distancia = distancia;
+        copia_ruta = ruta;
+      }
+    }
+  }
+  std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio EntreRutas es: " << std::endl;
+  for(int m = 0; m < ruta_final.size(); m ++){
+    std::cout << ruta_final[m] << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "Con una distancia de: " << distancia_final << std::endl;
+  std::cout << "-----------------------------------------------------" << std::endl;
+  //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
+}
 #endif
