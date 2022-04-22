@@ -319,7 +319,7 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
       }
     }
   }
-  IntercambioIntraRuta(copia_matrix,rutafinal,distanciaTotal,vehicles);
+  //IntercambioIntraRuta(copia_matrix,rutafinal,distanciaTotal,vehicles);
   IntercambioEntreRutas(copia_matrix,rutafinal,distanciaTotal,vehicles);
 }
 
@@ -601,9 +601,12 @@ int contj = 0;
     conthastacero = 1;
   for(int j=contj; j<copia_ruta.size();j++){
     copia_ruta = ruta;
-    if(copia_ruta[j] == 0){
+    if(copia_ruta[j] == 0 && copia_ruta[j+1] == 0){
       break;
-    }else{
+    }
+    if(copia_ruta[j] == 0){
+        j++;
+    }
       //std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
       resta = 0;
         resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
@@ -631,8 +634,6 @@ int contj = 0;
     copia_distancia = distancia;
     copia_ruta = ruta;
   }
-    }
-
   }
   }
   std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio EntreRutas es: " << std::endl;
