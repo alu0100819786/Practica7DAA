@@ -13,6 +13,10 @@ Algoritmo::~Algoritmo(){
     matriz.clear();
 }
 
+/**
+Función booleana que nos devolverá verdadero si el array que recibe tiene todos sus valores a cero y falso en caso contrario. con esto sabremos que tenemos visitados
+a todos los clientes y debemos volver al depósito. 
+*/
 bool Algoritmo::isZero(std::vector<int> array){
 
     for (int i = 1; i < array.size(); i++) {
@@ -23,6 +27,10 @@ bool Algoritmo::isZero(std::vector<int> array){
   return true;
 }
 
+/**
+Función que recibe una de las filas de la matriz, las RLC tanto de ruta como de valor y el tamaño de la RLC y genera la RLC correspondiente dependiendo de la fila y del tamaño
+escogiendo los valores mas pequeños que representarán las menores distancias hasta el siguietne vecino.
+*/
 void Algoritmo::generateRLC(std::vector<int>& RLCR, std::vector<int>& RLCV, std::vector<int> fila, int size_RLC){
     int elemento;
   std::vector<int> matrix = fila;
@@ -54,6 +62,14 @@ bool Algoritmo::isEmpty(std::vector<std::vector<int> > matrix){
   return true;
 }
 
+/**
+Algoritmo Greedy que buscará la mejor ruta avanzando de cliente en cliente utilizando como medida para desplazarse, la menor distancia entre clientes. En el momento que 
+haya visitado el número máximo de clientes, volverá al depósito y realizará una nueva ruta para los demás clientes.
+Conseguiremos el tamaño de la ruta dividiendo el número de clientes entre los vehículos disponibles.
+Recorreremos la fila inicial de la matriz buscando el vecino mas cercano, nos moveremos a dicho vecino, almacenando su distancia y que vecino es, antes de poner toda la
+columna asociada a dicho vecino a 0 ya que ya lo hemos recogido y no volveremos a necesitar su información desde cualquier otro vecino, a partir de aqui repetimos proceso
+desde la nueva fila asociada al vecino que acabamos de recoger e iremos rellenando nuestra ruta a la vez que vacíamos la matriz, hasta dejarla totalmente a 0.
+*/
 void Algoritmo::Greedy(){
    int size_route = 0;
   float prueba = 0;
@@ -142,6 +158,12 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
   busquedaLocal ->InsercionEntreRutas(); 
 }
 
+/**
+Función para nuestro algoritmo Grasp que funcionará de forma similar al Greedy, pero añadiendo una RLC desde la que escogerá de forma aleatoria uno de los valores
+y este valor será el nuevo vecino recogido. Además también tendrá un nuevo bucle While que ejecutará el algoritmo hasta que se cumpla alguna de sus dos condiciones
+de parada (nº de iteraciones o nº de iteraciones sin mejorar la solución). Se irá almacenando la solución de cada una de las iteraciones para compararla con la siguiente
+almacenando la mejor, para así poder dar un resultado final a la hora de finalizar la ejecución.
+*/
 void Algoritmo::Grasp(){
     srand(time(NULL));
   int size_route = 0;
@@ -250,6 +272,10 @@ void Algoritmo::Grasp(){
   busquedaLocal ->InsercionEntreRutas(); 
 }
 
+/**
+Función donde conseguiremos el número de iteraciones que llevará a cabo nuestro algoritmo Grasp antes de terminar su ejecución. Este número será una de nuestras condiciones
+de parada en el bucle while perteneciente al algoritmo Grasp.
+*/
 int Algoritmo::getNumberIterations(){
     	std::string input = "";
 	while (true) {
@@ -264,6 +290,10 @@ int Algoritmo::getNumberIterations(){
 	}
 }
 
+/**
+Función para conseguir el tamaño deseado para la RLC a la hora de ejecutar nuestro algoritmo Grasp. Pedimos al usuario que introduzca un número entero que será
+el tamaño del vector que contendrá nuestra RLC.
+*/
 int Algoritmo::getRLCVectorSize(){
       std::string input = "";
 	while (true) {
@@ -278,6 +308,10 @@ int Algoritmo::getRLCVectorSize(){
 	}
 }
 
+/**
+Función para conseguir la segunda condición de parada de nuestro bucle While para la ejecución del algoritmo Grasp. En este caso necesitaremos conseguir por parte del usuario
+un número entero que ejemplifique el número de iteraciones seguidas sin que se mejore la solución obtenida previamente antes de parar la ejecución.
+*/
 int Algoritmo::getTimesWithoutImprove(){
     std::string input = "";
 	while (true) {
@@ -292,6 +326,9 @@ int Algoritmo::getTimesWithoutImprove(){
 	}
 }
 
+/**
+Función para conseguir el tiempo actual, que usaremos en los algoritmos, para conseguir el tiempo de ejecución para ambos.
+*/
 long Algoritmo::getCurrentTime(){
       struct timeval tv;
   gettimeofday(&tv, NULL);
