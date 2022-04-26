@@ -1,4 +1,4 @@
-OBJECTS = main.o Algoritmo.o Busquedas.o
+OBJECTS = main.o Algoritmo.o Busquedas.o Problema.o
 CFLAGS = -c -std=c++17
 
 default: $(OBJECTS)
@@ -14,6 +14,10 @@ Algoritmo.o: ../src/Algoritmo.cpp ../includes/Algoritmo.h
 
 Busquedas.o: ../src/Busquedas.cpp ../includes/Busquedas.h
 	g++ $(CFLAGS) ../src/Busquedas.cpp
+
+Problema.o: ../src/Problema.cpp ../includes/Problema.h
+	g++ $(CFLAGS) ../src/Problema.cpp
+
 
 
 .PHONY: clean

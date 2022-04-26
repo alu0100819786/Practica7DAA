@@ -10,6 +10,7 @@
 =======================================================================================*/
 #include "../includes/Algoritmo.h"
 #include "../includes/Busquedas.h"
+#include "../includes/Problema.h"
 #ifndef MAIN_
 #define MAIN_
 
