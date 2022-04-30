@@ -19,6 +19,7 @@ class Busquedas{
         std::vector<int> ruta;
         int distancia;
         int vehicles;
+        int contadorintra = 1;
         
 
     public:

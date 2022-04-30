@@ -224,7 +224,7 @@ void Algoritmo::Grasp(){
 
   //Busquedas *busqueditadePrueba = new Busquedas();
   Busquedas *busquedaLocalII = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  busquedaLocalII ->IntercambioIntraRuta();
+  //busquedaLocalII ->IntercambioIntraRuta();
   //mecagoenmivida = getMejorRuta();
   //std::cout << "PEPEEEE" << std::endl;
   //for(int n = 0; n < mecagoenmivida.size(); n ++){
@@ -236,7 +236,7 @@ void Algoritmo::Grasp(){
   Busquedas *busquedaLocalIE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   //busquedaLocalIE ->IntercambioEntreRutas();
   Busquedas *busquedaLocalINI = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  //busquedaLocalINI ->InsercionIntraRuta(); 
+  busquedaLocalINI ->InsercionIntraRuta(); 
   Busquedas *busquedaLocalINE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   //busquedaLocalINE ->InsercionEntreRutas(); 
 
