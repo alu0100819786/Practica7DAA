@@ -16,7 +16,7 @@ Busquedas::~Busquedas(){
     vehicles = 0;
 }
 
-void Busquedas::IntercambioIntraRuta(){
+std::vector<int> Busquedas::IntercambioIntraRuta(){
 
   /*for(int l = 0; l < ruta.size(); l ++){
     std::cout << ruta[l] << " ";
@@ -120,12 +120,13 @@ for(int m = 0; m < ruta_final.size(); m ++){
 std::cout << std::endl;
 std::cout << "Con una distancia de: " << distancia_final << std::endl;
 std::cout << "-----------------------------------------------------" << std::endl;
+return ruta_final;
 }
 
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
 }
 
-void Busquedas::IntercambioEntreRutas(){
+std::vector<int> Busquedas::IntercambioEntreRutas(){
 
 std::vector<int> copia_ruta;
 std::vector<int> ruta_final;
@@ -218,18 +219,19 @@ if(distancia_final < distancia){
   IntercambioEntreRutas();
 }
 else{
-std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio IntraRuta es: " << std::endl;
+std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio Entre Rutas es: " << std::endl;
 for(int m = 0; m < ruta_final.size(); m ++){
     std::cout << ruta_final[m] << " ";
   }
 std::cout << std::endl;
 std::cout << "Con una distancia de: " << distancia_final << std::endl;
 std::cout << "-----------------------------------------------------" << std::endl;
+return ruta_final;
 }
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
 }
 
-void Busquedas::InsercionIntraRuta(){
+std::vector<int> Busquedas::InsercionIntraRuta(){
 
 std::vector<int> copia_ruta;
 std::vector<int> vector_erased;
@@ -371,12 +373,13 @@ for(int m = 0; m < ruta_final.size(); m ++){
 std::cout << std::endl;
 std::cout << "Con una distancia de: " << distancia_final << std::endl;
 std::cout << "-----------------------------------------------------" << std::endl;
+return ruta_final;
 }
 
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.   
 }
 
-void Busquedas::InsercionEntreRutas(){
+std::vector<int> Busquedas::InsercionEntreRutas(){
   std::vector<int> copia_ruta = ruta;
   std::vector<int> ruta_final = ruta;
   int distancia_final = distancia;
@@ -456,13 +459,14 @@ void Busquedas::InsercionEntreRutas(){
     InsercionEntreRutas();
   }
   else{
-  std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio EntreRutas es: " << std::endl;
+  std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Inserción EntreRutas es: " << std::endl;
   for(int m = 0; m < ruta_final.size(); m ++){
     std::cout << ruta_final[m] << " ";
   }
   std::cout << std::endl;
   std::cout << "Con una distancia de: " << distancia_final << std::endl;
   std::cout << "-----------------------------------------------------" << std::endl;
+  return ruta_final;
   }
   
   //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.    

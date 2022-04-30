@@ -218,7 +218,7 @@ void Algoritmo::Grasp(){
     std::cout << rutaSolucion[i] << " ";
   }
   std::cout << std::endl;
-
+  
   Busquedas *busquedaLocalII = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   busquedaLocalII ->IntercambioIntraRuta();
   Busquedas *busquedaLocalIE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
@@ -227,5 +227,6 @@ void Algoritmo::Grasp(){
   busquedaLocalINI ->InsercionIntraRuta(); 
   Busquedas *busquedaLocalINE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   busquedaLocalINE ->InsercionEntreRutas(); 
+
 }
 

@@ -23,10 +23,10 @@ class Busquedas{
     public:
         Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos);
         ~Busquedas();
-        void IntercambioIntraRuta();
-        void IntercambioEntreRutas();
-        void InsercionIntraRuta();
-        void InsercionEntreRutas();
+        std::vector<int> IntercambioIntraRuta();
+        std::vector<int> IntercambioEntreRutas();
+        std::vector<int> InsercionIntraRuta();
+        std::vector<int> InsercionEntreRutas();
 
 };
 #endif /* BUSQUEDAS_H_ */

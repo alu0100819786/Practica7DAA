@@ -25,7 +25,8 @@ class Algoritmo : public Problema{
         ~Algoritmo();
        
         void Greedy();
-        void Grasp ();
+        void Grasp();
+        void GVNS();
 
 
 };
