@@ -219,10 +219,13 @@ void Algoritmo::Grasp(){
   }
   std::cout << std::endl;
 
-  Busquedas *busquedaLocal = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  //busquedaLocal ->IntercambioIntraRuta();
-  //busquedaLocal ->IntercambioEntreRutas();
-  //busquedaLocal ->InsercionIntraRuta(); 
-  //busquedaLocal ->InsercionEntreRutas(); 
+  Busquedas *busquedaLocalII = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  busquedaLocalII ->IntercambioIntraRuta();
+  Busquedas *busquedaLocalIE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  busquedaLocalIE ->IntercambioEntreRutas();
+  Busquedas *busquedaLocalINI = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  busquedaLocalINI ->InsercionIntraRuta(); 
+  Busquedas *busquedaLocalINE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
+  busquedaLocalINE ->InsercionEntreRutas(); 
 }
 
