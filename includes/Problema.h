@@ -14,7 +14,7 @@
 class Problema{
 
     private:
-        
+        std::vector<int> MejorRuta;
 
     public:
         Problema();
@@ -26,6 +26,7 @@ class Problema{
         int getRLCVectorSize();
         int getTimesWithoutImprove();
         long getCurrentTime();
+        int Evaluate(std::vector<std::vector<int> > matrix,std::vector<int> ruta);
 
 
 };

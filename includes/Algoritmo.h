@@ -2,6 +2,7 @@
 #define ALGORITMO_H_
 #pragma once
 #include "Problema.h"
+#include "Busquedas.h"
 
 #include <sys/time.h>
 #include <iostream>
@@ -13,12 +14,13 @@
 #include <cmath>
 
 
-class Algoritmo : public Problema{
+class Algoritmo : public Problema, public Busquedas{
 
     private:
         int customers;
         int vehicles;
         std::vector<std::vector<int> > matriz;
+
 
     public:
         Algoritmo(int customers, int vehicles,std::vector<std::vector<int> > matriz);
@@ -27,6 +29,7 @@ class Algoritmo : public Problema{
         void Greedy();
         void Grasp();
         void GVNS();
+        
 
 
 };

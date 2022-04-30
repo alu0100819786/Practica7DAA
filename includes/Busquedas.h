@@ -2,6 +2,7 @@
 #define BUSQUEDAS_H_
 #pragma once
 
+
 #include <sys/time.h>
 #include <iostream>
 #include <stdlib.h>
@@ -18,15 +19,19 @@ class Busquedas{
         std::vector<int> ruta;
         int distancia;
         int vehicles;
-        int contadorintra = 0;
+        
 
     public:
+        std::vector<int> mejorRuta;
         Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos);
+        Busquedas();
         ~Busquedas();
-        std::vector<int> IntercambioIntraRuta();
-        std::vector<int> IntercambioEntreRutas();
-        std::vector<int> InsercionIntraRuta();
-        std::vector<int> InsercionEntreRutas();
+        void IntercambioIntraRuta();
+        void IntercambioEntreRutas();
+        void InsercionIntraRuta();
+        void InsercionEntreRutas();
+        void setMejorRuta(std::vector<int> ruta);
+        std::vector<int> getMejorRuta();
 
 };
 #endif /* BUSQUEDAS_H_ */

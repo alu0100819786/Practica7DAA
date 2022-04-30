@@ -133,6 +133,7 @@ void Algoritmo::Grasp(){
 	std::cout << "________________________________________________________________________________________________________________________" << std::endl;
 
   long start = getCurrentTime();
+  //std::vector<int> mecagoenmivida;
   std::vector<int> valorParcial;
   std::vector<int> rutaSolucion;
   std::vector<int> rutaParcial;
@@ -218,15 +219,26 @@ void Algoritmo::Grasp(){
     std::cout << rutaSolucion[i] << " ";
   }
   std::cout << std::endl;
-  
+
+//int a_ver = 0;
+
+  //Busquedas *busqueditadePrueba = new Busquedas();
   Busquedas *busquedaLocalII = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   busquedaLocalII ->IntercambioIntraRuta();
+  //mecagoenmivida = getMejorRuta();
+  //std::cout << "PEPEEEE" << std::endl;
+  //for(int n = 0; n < mecagoenmivida.size(); n ++){
+   // std::cout << mecagoenmivida[n] << " ";
+  //}
+  //std::cout << std::endl;
+  //a_ver = Evaluate(copia_matrix,pepe);
+  //std::cout << " a ver vale: " << a_ver << std::endl;
   Busquedas *busquedaLocalIE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  busquedaLocalIE ->IntercambioEntreRutas();
+  //busquedaLocalIE ->IntercambioEntreRutas();
   Busquedas *busquedaLocalINI = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  busquedaLocalINI ->InsercionIntraRuta(); 
+  //busquedaLocalINI ->InsercionIntraRuta(); 
   Busquedas *busquedaLocalINE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  busquedaLocalINE ->InsercionEntreRutas(); 
+  //busquedaLocalINE ->InsercionEntreRutas(); 
 
 }
 

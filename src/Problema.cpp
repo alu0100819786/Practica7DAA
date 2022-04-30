@@ -118,3 +118,13 @@ long Problema::getCurrentTime(){
   gettimeofday(&tv, NULL);
   return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
+
+int Problema::Evaluate(std::vector<std::vector<int> > matrix,std::vector<int> ruta){
+int resultado = 0;
+int aux = 0;
+      for(int i = 1; i < ruta.size(); i ++){
+            aux = matrix[ruta[i-1]][ruta[i]];
+            resultado += aux;
+          }
+      return resultado;
+}
