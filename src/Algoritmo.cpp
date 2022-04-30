@@ -191,7 +191,8 @@ void Algoritmo::Grasp(){
         contruta++;
 
         if (contruta == vehicles) {
-
+          //Llamar aquí a las busquedas y tenemso que conseguir su resultado ya que ese resultado va a ser el rutasolución y ademas conseguir su distancia total
+          //Para poder ponerla en la tabla.
           long totalTime = getCurrentTime() - start;
           std::cout << matriz.size() - 1 << "\t\t\t" << RLCSize << "\t\t" << contadorIteraciones + 1 << "\t\t\t\t" << distanciaTotal << "\t\t\t" << totalTime << std::endl;
           if (mejorDistancia > distanciaTotal) {

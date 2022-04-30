@@ -10,3 +10,43 @@
 0 8 2 5 0 4 7 3 0 1 6 0
 0 8 5 2 0 4 7 3 0 1 6 0
 
+
+
+cogemos solución de grasp, asi que hay que pasarle al GNVS la matriz, dicha solución, clientes y vehiculos no hace falta porque lo coje cada una de su clase.
+
+Entonces primero saltamos.
+
+GVNS(){
+
+    ruta = shaking(); //El Shaking es la Insercion EntreRutas sin Elegir el minimo sino un movimiento al azar. necesita que le pasemos la solución inicial. se guardará la nueva y su distancia.
+
+    Con esta ruta generada llamamos al VND.
+
+    VND(ruta);
+}
+
+VND(ruta){
+
+    int contador = 0;
+    switch(contador){
+        case 0:
+        ruta_intermedia = InsercionEntreRutas(ruta);
+        if(evaluate(ruta) > evaluate(ruta_intermedia)){
+            ruta = ruta_intermedia;
+            contador = 0;
+            break; //volvemos a ejecutar el cero. (podemos ponernos en un for que empiece en -1 para que entre de nuevo con contador=0);
+        }
+        else{
+            contador = 1; //Ejecutamos el siguiente paso del switch; y así sucesivamente.
+        }
+        }
+    }
+    con este orden en el VND;
+    1.-insercion entre
+    2.-insercion intra
+    3.-intercambio entre
+    4.-intercambio intra
+
+    Si llegamos a contador = 4 y ruta_intermedia = ruta salimos del VND devolviendo esa ruta e incrementamos el contador del GVNS para que salte de nuevo y así hasta llegar
+    al máximo del contador de GVNS
+}
