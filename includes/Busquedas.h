@@ -18,6 +18,7 @@ class Busquedas{
         std::vector<int> ruta;
         int distancia;
         int vehicles;
+        int contadorintra = 0;
 
     public:
         Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos);

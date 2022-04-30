@@ -220,9 +220,9 @@ void Algoritmo::Grasp(){
   std::cout << std::endl;
 
   Busquedas *busquedaLocal = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  busquedaLocal ->IntercambioIntraRuta();
-  busquedaLocal ->IntercambioEntreRutas();
-  busquedaLocal ->InsercionIntraRuta(); 
-  busquedaLocal ->InsercionEntreRutas(); 
+  //busquedaLocal ->IntercambioIntraRuta();
+  //busquedaLocal ->IntercambioEntreRutas();
+  //busquedaLocal ->InsercionIntraRuta(); 
+  //busquedaLocal ->InsercionEntreRutas(); 
 }
 

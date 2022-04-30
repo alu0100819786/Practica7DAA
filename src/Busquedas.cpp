@@ -38,6 +38,8 @@ int resta = 0;
 int suma = 0;
 int copia_distancia = 0;
 copia_distancia = distancia;
+
+//std::cout << "Distancia antes de mejorar: " << distancia << std::endl;
 for(int i = 1; i < copia_ruta.size(); i++){
   copia_ruta = ruta;
   if(copia_ruta[i] == 0){
@@ -100,6 +102,17 @@ for(int i = 1; i < copia_ruta.size(); i++){
     
   }
 }
+
+//std::cout << "Distancia Inicial: " << distancia << std::endl;
+//std::cout << "Distancia Mejorada: " << distancia_final << std::endl;
+if(distancia_final < distancia){
+  
+  ruta = ruta_final;
+  distancia = distancia_final;
+  //std::cout << "Nueva distancia: " <<  distancia << std::endl;
+  IntercambioIntraRuta();
+}
+else{
 std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio IntraRuta es: " << std::endl;
 for(int m = 0; m < ruta_final.size(); m ++){
     std::cout << ruta_final[m] << " ";
@@ -107,6 +120,8 @@ for(int m = 0; m < ruta_final.size(); m ++){
 std::cout << std::endl;
 std::cout << "Con una distancia de: " << distancia_final << std::endl;
 std::cout << "-----------------------------------------------------" << std::endl;
+}
+
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
 }
 
@@ -127,7 +142,7 @@ int copia_distancia = 0;
 copia_distancia = distancia;
 int conthastacero = 1;
 int contj = 0;
-
+//std::cout << "Distancia antes de mejorar: " << distancia << std::endl;
   for(int i = 1; i < copia_ruta.size(); i ++){
     copia_ruta = ruta;
     if(copia_ruta[i] == 0){
@@ -146,8 +161,16 @@ int contj = 0;
       }
     }
     contj = i + conthastacero + 1;
+    //std::cout << "Posicion i: " << i << std::endl;
+    //std::cout << "Contador J: " << contj << std::endl;
+    if(contj == copia_ruta.size()){
+      //std::cout << "estamos en la misma ruta" << std::endl;
+      break;
+    }
+    
+    
     conthastacero = 1;
-  for(int j=contj; j<copia_ruta.size();j++){
+  for(int j=contj; j<copia_ruta.size()-1;j++){
     copia_ruta = ruta;
     if(copia_ruta[j] == 0 && copia_ruta[j+1] == 0){
       break;
@@ -155,6 +178,7 @@ int contj = 0;
     if(copia_ruta[j] == 0){
         j++;
     }
+    
       //std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
       resta = 0;
         resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
@@ -174,6 +198,7 @@ int contj = 0;
   copia_distancia = copia_distancia + (suma - resta);
   //std::cout << "pepe: " << copia_distancia << std::endl;
   if(copia_distancia < distancia_final){
+    //std::cout << "Intercambio con Mejora:" << copia_ruta[i] << ", " << copia_ruta[j] << std::endl;
     distancia_final = copia_distancia;
     ruta_final = copia_ruta;
     copia_distancia = distancia;
@@ -184,13 +209,23 @@ int contj = 0;
   }
   }
   }
-  std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio EntreRutas es: " << std::endl;
+//std::cout << "Distancia Inicial: " << distancia << std::endl;
+//std::cout << "Distancia Mejorada: " << distancia_final << std::endl;
+if(distancia_final < distancia){
+  ruta = ruta_final;
+  distancia = distancia_final;
+//std::cout << "Nueva distancia: " <<  distancia << std::endl;
+  IntercambioEntreRutas();
+}
+else{
+std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio IntraRuta es: " << std::endl;
 for(int m = 0; m < ruta_final.size(); m ++){
     std::cout << ruta_final[m] << " ";
   }
 std::cout << std::endl;
 std::cout << "Con una distancia de: " << distancia_final << std::endl;
 std::cout << "-----------------------------------------------------" << std::endl;
+}
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
 }
 
@@ -226,7 +261,8 @@ for(int l = 0; l < copia_ruta.size(); l ++){
             std::cout << copia_ruta[l] << " ";
           }
 
-  */        
+  */ 
+//std::cout << "Distancia antes de mejorar: " << distancia << std::endl;       
 for(int i = 1; i < copia_ruta.size(); i++){
   copia_ruta = ruta;
   if(copia_ruta[i] == 0){
@@ -274,12 +310,26 @@ for(int i = 1; i < copia_ruta.size(); i++){
       
 resultadoIntermedio = suma - resta;
 //vector_erased = copia_ruta;
-//std::cout << "Cambio en la distancia: " << resultadoIntermedio << std::endl;
+//std::cout << "Distancia Pre Intercambio: " << copia_distancia << std::endl;
+//std::cout << "Resultado Intermedio: " << resultadoIntermedio << std::endl;
       //for(int l = 0; l < vector_erased.size(); l ++){
             //std::cout << vector_erased[l] << " ";
-          //}
+         // }
           //std::cout << std::endl;
-copia_distancia = copia_distancia + resultadoIntermedio;
+int pruebita = 0;
+int auxprueba = 0;
+      for(int n = 1; n < vector_erased.size(); n ++){
+            auxprueba = matrix[vector_erased[n-1]][vector_erased[n]];
+            pruebita += auxprueba;
+          }
+
+          //std::cout << std::endl;
+//copia_distancia = copia_distancia + resultadoIntermedio;
+copia_distancia = pruebita;
+//std::cout << "Resultado esperado: " << pruebita << std::endl;
+auxprueba = 0;
+pruebita = 0;
+//std::cout << "Distancia Post Intercambio: " << copia_distancia << std::endl;
 if(copia_distancia < distancia_final){
   distancia_final = copia_distancia;
   ruta_final = vector_erased;
@@ -292,6 +342,28 @@ if(copia_distancia < distancia_final){
 
   }
 }
+
+//std::cout << "Distancia Inicial: " << distancia << std::endl;
+//std::cout << "Distancia Mejorada: " << distancia_final << std::endl;
+if(distancia_final < distancia){
+  //for(int n = 0; n < ruta.size(); n ++){
+    //std::cout << ruta[n] << " ";
+ // }
+//std::cout << std::endl;
+//for(int m = 0; m < ruta_final.size(); m ++){
+   // std::cout << ruta_final[m] << " ";
+  //}
+//std::cout << std::endl;
+  distancia = distancia_final;
+  ruta = ruta_final;
+//std::cout << "Nueva distancia: " <<  distancia << std::endl;
+//contadorintra++;
+//if(contadorintra == 20){
+  //exit(0);
+//}
+  InsercionIntraRuta();
+}
+else{
 std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Inserción IntraRuta es: " << std::endl;
 for(int m = 0; m < ruta_final.size(); m ++){
     std::cout << ruta_final[m] << " ";
@@ -299,6 +371,8 @@ for(int m = 0; m < ruta_final.size(); m ++){
 std::cout << std::endl;
 std::cout << "Con una distancia de: " << distancia_final << std::endl;
 std::cout << "-----------------------------------------------------" << std::endl;
+}
+
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.   
 }
 
