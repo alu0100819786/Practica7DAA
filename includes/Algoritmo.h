@@ -28,7 +28,6 @@ class Algoritmo : public Problema, public Busquedas{
        
         void Greedy();
         void Grasp();
-        void GVNS();
         
 
 

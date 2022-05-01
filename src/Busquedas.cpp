@@ -449,8 +449,11 @@ void Busquedas::InsercionEntreRutas(){
       resultadoIntermedio = suma - resta;
       copia_distancia = copia_distancia + (suma - resta);
       //std::cout << "pepe: " << copia_distancia << std::endl;
-      if(copia_distancia < distancia_final){
-        distancia_final = copia_distancia;
+      int auxdistancia = 0;
+      auxdistancia = Evaluate(copia_ruta);
+      //std::cout << "Evaluate pepe: " << auxdistancia << std::endl;
+      if(auxdistancia < distancia_final){
+        distancia_final = auxdistancia;
         ruta_final = copia_ruta;
         copia_distancia = distancia;
         copia_ruta = ruta;
@@ -491,4 +494,150 @@ for(int m = 0; m < ruta.size(); m ++){
 std::vector<int> Busquedas::getMejorRuta(){
 
   return mejorRuta;
+}
+
+int Busquedas::Evaluate(std::vector<int> ruta){
+int resultado = 0;
+int aux = 0;
+      for(int i = 1; i < ruta.size(); i ++){
+            aux = matrix[ruta[i-1]][ruta[i]];
+            resultado += aux;
+          }
+      return resultado;
+}
+
+void Busquedas::GVNS(){
+
+int saltos = 0;
+int contador = 0;
+int distancia_GVNS = 0;
+std::vector<int> ruta_Intermedia = ruta;
+
+/*while(saltos <3){//Este es el Shaking.
+
+InsercionEntreRutasAleatorio();
+std::cout << "Ruta Despues del Shaking: " << std::endl;
+for(int m = 0; m < ruta.size(); m ++){
+    std::cout << ruta[m] << " ";
+  }
+  std::cout << std::endl;
+
+ruta_Intermedia = ruta;
+for(int m = 0; m < ruta_Intermedia.size(); m ++){
+    std::cout << ruta_Intermedia[m] << " ";
+}
+  std::cout << std::endl;
+  std::cout << "Evaluate del Shaking: " << Evaluate(ruta) << " " << Evaluate(ruta_Intermedia) << std::endl;*/
+  while(contador < 4){ //Este While es el VND.
+    if(contador == 0){
+      std::cout << "Entramos a Contador = 0 con: "<< Evaluate(ruta) << std::endl;
+      InsercionEntreRutas();
+      std::cout << "Miramos La Ruta de Antes: " << std::endl;
+      for(int m = 0; m < ruta_Intermedia.size(); m ++){
+    std::cout << ruta_Intermedia[m] << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "Miramos La Ruta Nueva: " << std::endl;
+  for(int m = 0; m < ruta.size(); m ++){
+    std::cout << ruta[m] << " ";
+  }
+  std::cout << std::endl;
+      std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+      if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
+        contador = 1;
+      }
+      else{
+        contador = 0;
+        ruta_Intermedia = ruta;
+      }
+    }
+    if(contador == 1){
+      std::cout << "Entramos a Contador = 1 con: "<< Evaluate(ruta) << std::endl;
+      InsercionIntraRuta();
+      std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+      if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
+        contador = 2;
+      }
+      else{
+        contador = 0;
+        ruta_Intermedia = ruta;
+      }
+    }
+    if(contador == 2){
+      std::cout << "Entramos a Contador = 2 con: "<< Evaluate(ruta) << std::endl;
+      IntercambioEntreRutas();
+      std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+      if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
+        contador = 3;
+      }
+      else{
+        contador = 0;
+        ruta_Intermedia = ruta;
+      }
+    }
+    if(contador == 3){
+      std::cout << "Entramos a Contador = 3 con: "<< Evaluate(ruta) << std::endl;
+      IntercambioIntraRuta();
+      std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+      if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
+        contador = 4;
+      }
+      else{
+        contador = 0;
+        ruta_Intermedia = ruta;
+      }
+    }
+  }
+  //saltos++;
+  //contador = 0;
+//}
+std::cout << "El óptimo local Conseguido con GVNS es: "<< std::endl;
+  for(int m = 0; m < ruta.size(); m ++){
+    std::cout << ruta[m] << " ";
+  }
+  std::cout << std::endl;
+  distancia_GVNS = Evaluate(ruta);
+  std::cout << "Con distancia: " << distancia_GVNS << std::endl;
+}
+
+void Busquedas::InsercionEntreRutasAleatorio(){
+std::vector<int> copia_ruta = ruta;
+int conthastacero = 0;
+int inicioJ = 0;
+int posErased = 0;
+int posInserted = 0;
+int aux = 0;
+for(int i = 1; i < copia_ruta.size(); i ++){
+ if(copia_ruta[i] != 0){
+        conthastacero++;
+      }
+  if(copia_ruta[i] == 0){
+        break;
+      }
+}
+//std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+std::random_device rd;
+std::default_random_engine eng(rd());
+std::uniform_int_distribution<int> distr(1, conthastacero);
+posErased = distr(eng);
+//std::cout << posErased << std::endl;
+inicioJ = conthastacero +3;
+conthastacero = 0;
+for(int j = inicioJ; j<copia_ruta.size(); j++){
+    if(copia_ruta[j] != 0){
+        conthastacero++;
+      }
+  if(copia_ruta[j] == 0){
+        break;
+      }
+}
+conthastacero += inicioJ;
+std::uniform_int_distribution<int> distrJ(inicioJ, conthastacero);
+posInserted = distrJ(eng);
+//std::cout << posInserted << std::endl;
+
+aux = copia_ruta[posErased];
+copia_ruta.erase(copia_ruta.begin() + posErased);
+copia_ruta.insert(copia_ruta.begin() + posInserted - 1, aux);
+ruta = copia_ruta;
 }

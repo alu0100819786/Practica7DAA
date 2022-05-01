@@ -11,6 +11,7 @@
 #include <vector>
 #include <ctime>
 #include <cmath>
+#include <random>
 
 class Busquedas{
 
@@ -19,11 +20,9 @@ class Busquedas{
         std::vector<int> ruta;
         int distancia;
         int vehicles;
-        int contadorintra = 1;
-        
+        std::vector<int> mejorRuta;
 
     public:
-        std::vector<int> mejorRuta;
         Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos);
         Busquedas();
         ~Busquedas();
@@ -31,8 +30,11 @@ class Busquedas{
         void IntercambioEntreRutas();
         void InsercionIntraRuta();
         void InsercionEntreRutas();
+        void InsercionEntreRutasAleatorio();
+        void GVNS();
         void setMejorRuta(std::vector<int> ruta);
         std::vector<int> getMejorRuta();
+        int Evaluate(std::vector<int> ruta);
 
 };
 #endif /* BUSQUEDAS_H_ */
