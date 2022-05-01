@@ -21,6 +21,7 @@ class Busquedas{
         int distancia;
         int vehicles;
         std::vector<int> mejorRuta;
+        std::vector<int> rutaGVNS;
 
     public:
         Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos);

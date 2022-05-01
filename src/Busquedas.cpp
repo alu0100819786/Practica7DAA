@@ -8,6 +8,7 @@ Busquedas::Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inp
         distancia = inputDistancia;
         vehicles = vehiculos;
         mejorRuta=inputRuta;
+        rutaGVNS = inputRuta;
 }
 
 Busquedas::Busquedas(){
@@ -34,8 +35,9 @@ std::vector<int> copia_ruta;
 std::vector<int> ruta_final;
 std::vector<int> copia_resultado;
 ruta_final = ruta;
+int distancia_GVNS = Evaluate(ruta);
 int distancia_final;
-distancia_final = distancia;
+distancia_final = distancia_GVNS;
 copia_ruta = ruta;
 int contador = 0;
 int aux = 0;
@@ -43,7 +45,7 @@ int resultadoIntermedio = 0;
 int resta = 0;
 int suma = 0;
 int copia_distancia = 0;
-copia_distancia = distancia;
+copia_distancia = distancia_GVNS;
 
 //std::cout << "Distancia antes de mejorar: " << distancia << std::endl;
 for(int i = 1; i < copia_ruta.size(); i++){
@@ -62,14 +64,14 @@ for(int i = 1; i < copia_ruta.size(); i++){
     }else{
       //std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
       if(copia_ruta[i+1] == copia_ruta[j]){
-        resta = 0;
-        resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        //resta = 0;
+        //resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
         //std::cout << "resta: " << resta << std::endl;
         aux = copia_ruta[i];
         copia_ruta[i] = copia_ruta[j];
         copia_ruta[j] = aux;
-        suma = 0;
-        suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        //suma = 0;
+        //suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
         //std::cout << "suma: " << suma << std::endl;
           //for(int l = 0; l < copia_ruta.size(); l ++){
             //std::cout << copia_ruta[l] << " ";
@@ -77,14 +79,14 @@ for(int i = 1; i < copia_ruta.size(); i++){
         //std::cout << std::endl;
       }
       if(copia_ruta[i+1] != copia_ruta[j]){
-        resta = 0;
-        resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        //resta = 0;
+        //resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
         //std::cout << "resta: " << resta << std::endl;
         aux = copia_ruta[i];
         copia_ruta[i] = copia_ruta[j];
         copia_ruta[j] = aux;
-        suma = 0;
-        suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        //suma = 0;
+        //suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
         //std::cout << "suma: " << suma << std::endl;
           //for(int l = 0; l < copia_ruta.size(); l ++){
             //std::cout << copia_ruta[l] << " ";
@@ -92,16 +94,19 @@ for(int i = 1; i < copia_ruta.size(); i++){
         //std::cout << std::endl;
       }
   //std::cout << "aaaa: " << copia_distancia<< std::endl;
-  resultadoIntermedio = suma - resta;
-  copia_distancia = copia_distancia + (suma - resta);
+  //resultadoIntermedio = suma - resta;
+  //copia_distancia = copia_distancia + (suma - resta);
+  int auxEvalute = 0;
+  auxEvalute = Evaluate(copia_ruta);
+  copia_distancia = auxEvalute;
   //std::cout << "pepe: " << copia_distancia << std::endl;
   if(copia_distancia < distancia_final){
     distancia_final = copia_distancia;
     ruta_final = copia_ruta;
-    copia_distancia = distancia;
+    copia_distancia = distancia_GVNS;
     copia_ruta = ruta;
   }else{
-    copia_distancia = distancia;
+    copia_distancia = distancia_GVNS;
     copia_ruta = ruta;
   }
     }
@@ -111,10 +116,10 @@ for(int i = 1; i < copia_ruta.size(); i++){
 
 //std::cout << "Distancia Inicial: " << distancia << std::endl;
 //std::cout << "Distancia Mejorada: " << distancia_final << std::endl;
-if(distancia_final < distancia){
+if(distancia_final < distancia_GVNS){
   
   ruta = ruta_final;
-  distancia = distancia_final;
+  distancia_GVNS = distancia_final;
   //std::cout << "Nueva distancia: " <<  distancia << std::endl;
   IntercambioIntraRuta();
 }
@@ -139,7 +144,8 @@ std::vector<int> copia_ruta;
 std::vector<int> ruta_final;
 ruta_final = ruta;
 int distancia_final;
-distancia_final = distancia;
+int distancia_GVNS = Evaluate(ruta);
+distancia_final = distancia_GVNS;
 copia_ruta = ruta;
 int contador = 0;
 int aux = 0;
@@ -147,7 +153,7 @@ int resultadoIntermedio = 0;
 int resta = 0;
 int suma = 0;
 int copia_distancia = 0;
-copia_distancia = distancia;
+copia_distancia = distancia_GVNS;
 int conthastacero = 1;
 int contj = 0;
 //std::cout << "Distancia antes de mejorar: " << distancia << std::endl;
@@ -188,40 +194,43 @@ int contj = 0;
     }
     
       //std::cout <<"cambio: " << copia_ruta[i] << " por: " << copia_ruta[j] << std::endl;
-      resta = 0;
-        resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+      //resta = 0;
+        //resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
         //std::cout << "resta: " << resta << std::endl;
         aux = copia_ruta[i];
         copia_ruta[i] = copia_ruta[j];
         copia_ruta[j] = aux;
-        suma = 0;
-        suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
+        //suma = 0;
+        //suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]] + matrix[copia_ruta[j]][copia_ruta[j+1]];
         //std::cout << "suma: " << suma << std::endl;
           //for(int l = 0; l < copia_ruta.size(); l ++){
             //std::cout << copia_ruta[l] << " ";
           //}
         //std::cout << std::endl;
         //std::cout << "aaaa: " << copia_distancia<< std::endl;
-  resultadoIntermedio = suma - resta;
-  copia_distancia = copia_distancia + (suma - resta);
+  //resultadoIntermedio = suma - resta;
+  //copia_distancia = copia_distancia + (suma - resta);
+   int auxEvalute = 0;
+  auxEvalute = Evaluate(copia_ruta);
+  copia_distancia = auxEvalute;
   //std::cout << "pepe: " << copia_distancia << std::endl;
   if(copia_distancia < distancia_final){
     //std::cout << "Intercambio con Mejora:" << copia_ruta[i] << ", " << copia_ruta[j] << std::endl;
     distancia_final = copia_distancia;
     ruta_final = copia_ruta;
-    copia_distancia = distancia;
+    copia_distancia = distancia_GVNS;
     copia_ruta = ruta;
   }else{
-    copia_distancia = distancia;
+    copia_distancia = distancia_GVNS;
     copia_ruta = ruta;
   }
   }
   }
 //std::cout << "Distancia Inicial: " << distancia << std::endl;
 //std::cout << "Distancia Mejorada: " << distancia_final << std::endl;
-if(distancia_final < distancia){
+if(distancia_final < distancia_GVNS){
   ruta = ruta_final;
-  distancia = distancia_final;
+  distancia_GVNS = distancia_final;
 //std::cout << "Nueva distancia: " <<  distancia << std::endl;
   IntercambioEntreRutas();
 }
@@ -245,7 +254,8 @@ std::vector<int> vector_erased;
 std::vector<int> ruta_final;
 ruta_final = ruta;
 int distancia_final;
-distancia_final = distancia;
+int distancia_GVNS = Evaluate(ruta);
+distancia_final = distancia_GVNS;
 copia_ruta = ruta;
 int contador = 0;
 int aux = 0;
@@ -253,7 +263,7 @@ int resultadoIntermedio = 0;
 int resta = 0;
 int suma = 0;
 int copia_distancia = 0;
-copia_distancia = distancia;
+copia_distancia = distancia_GVNS;
 int indice = 0;
 int inicio = 1;
 
@@ -293,33 +303,33 @@ for(int i = 1; i < copia_ruta.size(); i++){
       //std::cout << "insert: " << j << std::endl;
       if(i==j){
         //std::cout << "(i=j)quitamos: " << ruta[i-1] << "-" << ruta[i] << " luego " << ruta[i] << "-" << ruta[i+1] << " por ultimo: " << ruta[j-1]<< "-" << ruta[j] << std::endl;
-        resta = matrix[ruta[i-1]][ruta[i]] + matrix[ruta[i]][ruta[i+1]] + matrix[ruta[j-1]][ruta[j]];
+        //resta = matrix[ruta[i-1]][ruta[i]] + matrix[ruta[i]][ruta[i+1]] + matrix[ruta[j-1]][ruta[j]];
       }
       if(i<j){
         //std::cout << "(i<j)quitamos: " << ruta[i-1] << "-" << ruta[i] << " luego " << ruta[i] << "-" << ruta[i+1] << " por ultimo: " << ruta[j]<< "-" << ruta[j+1] << std::endl;
-        resta = matrix[ruta[i-1]][ruta[i]] + matrix[ruta[i]][ruta[i+1]] + matrix[ruta[j]][ruta[j+1]];
+        //resta = matrix[ruta[i-1]][ruta[i]] + matrix[ruta[i]][ruta[i+1]] + matrix[ruta[j]][ruta[j+1]];
       //std::cout << "Resta:" << resta << std::endl;
       }
       if(i>j){
         //std::cout << "(i>j)quitamos: " << ruta[i-1] << "-" << ruta[i] << " luego " << ruta[i] << "-" << ruta[i+1] << " por ultimo: " << ruta[j-1]<< "-" << ruta[j] << std::endl;
-        resta = matrix[ruta[i-1]][ruta[i]] + matrix[ruta[i]][ruta[i+1]] + matrix[ruta[j-1]][ruta[j]]; 
+        //resta = matrix[ruta[i-1]][ruta[i]] + matrix[ruta[i]][ruta[i+1]] + matrix[ruta[j-1]][ruta[j]]; 
       }
       vector_erased.insert(vector_erased.begin() +j, indice);
       if(i==j){
         //std::cout << "(i=j)ponemos: " << vector_erased[j-1] << "-" << vector_erased[j] << " luego " << vector_erased[j] << "-" << vector_erased[j+1] << " por ultimo: " << vector_erased[i-1]<< "-" << vector_erased[i] << std::endl;
-        suma = matrix[vector_erased[j-1]][vector_erased[j]] + matrix[vector_erased[j]][vector_erased[j+1]] + matrix[vector_erased[i-1]][vector_erased[i]];
+        //suma = matrix[vector_erased[j-1]][vector_erased[j]] + matrix[vector_erased[j]][vector_erased[j+1]] + matrix[vector_erased[i-1]][vector_erased[i]];
        }
       if(i<j){
         //std::cout << "(i<j)ponemos: " << vector_erased[j-1] << "-" << vector_erased[j] << " luego " << vector_erased[j] << "-" << vector_erased[j+1] << " por ultimo: " << vector_erased[i-1]<< "-" << vector_erased[i] << std::endl;
-        suma = matrix[vector_erased[j-1]][vector_erased[j]] + matrix[vector_erased[j]][vector_erased[j+1]] + matrix[vector_erased[i-1]][vector_erased[i]];
+        //suma = matrix[vector_erased[j-1]][vector_erased[j]] + matrix[vector_erased[j]][vector_erased[j+1]] + matrix[vector_erased[i-1]][vector_erased[i]];
        //std::cout << "Suma:" << suma << std::endl;
        }
       if(i>j){
         //std::cout << "(i>j)ponemos: " << vector_erased[j-1] << "-" << vector_erased[j] << " luego " << vector_erased[j] << "-" << vector_erased[j+1] << " por ultimo: " << vector_erased[i]<< "-" << vector_erased[i+1] << std::endl;
-        suma = matrix[vector_erased[j-1]][vector_erased[j]] + matrix[vector_erased[j]][vector_erased[j+1]] + matrix[vector_erased[i]][vector_erased[i+1]];
+        //suma = matrix[vector_erased[j-1]][vector_erased[j]] + matrix[vector_erased[j]][vector_erased[j+1]] + matrix[vector_erased[i]][vector_erased[i+1]];
       }
       
-resultadoIntermedio = suma - resta;
+//resultadoIntermedio = suma - resta;
 //vector_erased = copia_ruta;
 //std::cout << "Distancia Pre Intercambio: " << copia_distancia << std::endl;
 //std::cout << "Resultado Intermedio: " << resultadoIntermedio << std::endl;
@@ -335,7 +345,10 @@ resultadoIntermedio = suma - resta;
           //}
 
           
-copia_distancia = copia_distancia + resultadoIntermedio;
+//copia_distancia = copia_distancia + resultadoIntermedio;
+ int auxEvalute = 0;
+  auxEvalute = Evaluate(vector_erased);
+  copia_distancia = auxEvalute;
 //copia_distancia = pruebita;
 //std::cout << "Resultado esperado: " << pruebita << std::endl;
 //auxprueba = 0;
@@ -345,10 +358,10 @@ copia_distancia = copia_distancia + resultadoIntermedio;
 if(copia_distancia < distancia_final){
   distancia_final = copia_distancia;
   ruta_final = vector_erased;
-  copia_distancia = distancia;
+  copia_distancia = distancia_GVNS;
   vector_erased = copia_ruta;
 }else{
-  copia_distancia = distancia;
+  copia_distancia = distancia_GVNS;
   vector_erased = copia_ruta;
 }
 
@@ -357,7 +370,7 @@ if(copia_distancia < distancia_final){
 
 //std::cout << "Distancia Inicial: " << distancia << std::endl;
 //std::cout << "Distancia Mejorada: " << distancia_final << std::endl;
-if(distancia_final < distancia){
+if(distancia_final < distancia_GVNS){
   //for(int n = 0; n < ruta.size(); n ++){
     //std::cout << ruta[n] << " ";
  // }
@@ -366,7 +379,7 @@ if(distancia_final < distancia){
    // std::cout << ruta_final[m] << " ";
   //}
 //std::cout << std::endl;
-  distancia = distancia_final;
+  distancia_GVNS = distancia_final;
   ruta = ruta_final;
 //std::cout << "Nueva distancia: " <<  distancia << std::endl;
 //contadorintra++;
@@ -392,13 +405,14 @@ setMejorRuta(ruta_final);
 void Busquedas::InsercionEntreRutas(){
   std::vector<int> copia_ruta = ruta;
   std::vector<int> ruta_final = ruta;
-  int distancia_final = distancia;
+  int distancia_GVNS = Evaluate(ruta);
+  int distancia_final = distancia_GVNS;
   int contador = 0;
   int aux = 0;
   int resultadoIntermedio = 0;
   int resta = 0;
   int suma = 0;
-  int copia_distancia = distancia;
+  int copia_distancia = distancia_GVNS;
   int conthastacero = 1;
   int contj = 0;
 //std::cout << "Distancia antes de mejorar: " << distancia << std::endl;
@@ -424,7 +438,7 @@ void Busquedas::InsercionEntreRutas(){
     for (int j=contj; j<copia_ruta.size(); j++) {
       copia_ruta = ruta;
       //std::cout <<"cambio: " << copia_ruta[i] << " en: " << j << std::endl;
-      resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]];
+      //resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]];
       /*std::cout << "resta= ";
       std::cout << matrix[copia_ruta[i-1]][copia_ruta[i]] << "(" << copia_ruta[i-1] << "," << copia_ruta[i] << ")";
       std::cout << " + " << matrix[copia_ruta[i]][copia_ruta[i+1]] << "(" << copia_ruta[i] << "," << copia_ruta[i+1] << ")";
@@ -435,7 +449,7 @@ void Busquedas::InsercionEntreRutas(){
       copia_ruta.erase(copia_ruta.begin() + i);
       copia_ruta.insert(copia_ruta.begin() + j - 1, aux);
 
-      suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[j-2]][copia_ruta[j-1]] + matrix[copia_ruta[j-1]][copia_ruta[j]];
+      //suma = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[j-2]][copia_ruta[j-1]] + matrix[copia_ruta[j-1]][copia_ruta[j]];
       /*std::cout << "suma= ";
       std::cout << matrix[copia_ruta[i-1]][copia_ruta[i]] << "(" << copia_ruta[i-1] << "," << copia_ruta[i] << ")";
       std::cout << " + " << matrix[copia_ruta[j-2]][copia_ruta[j-1]] << "(" << copia_ruta[j-2] << "," << copia_ruta[j-1] << ")";
@@ -446,27 +460,28 @@ void Busquedas::InsercionEntreRutas(){
       }
       std::cout << std::endl;*/
       //std::cout << "aaaa: " << copia_distancia<< std::endl;
-      resultadoIntermedio = suma - resta;
-      copia_distancia = copia_distancia + (suma - resta);
+      //resultadoIntermedio = suma - resta;
+      //copia_distancia = copia_distancia + (suma - resta);
       //std::cout << "pepe: " << copia_distancia << std::endl;
-      int auxdistancia = 0;
-      auxdistancia = Evaluate(copia_ruta);
+       int auxEvalute = 0;
+  auxEvalute = Evaluate(copia_ruta);
+  copia_distancia = auxEvalute;
       //std::cout << "Evaluate pepe: " << auxdistancia << std::endl;
-      if(auxdistancia < distancia_final){
-        distancia_final = auxdistancia;
+      if(copia_distancia < distancia_final){
+        distancia_final = copia_distancia;
         ruta_final = copia_ruta;
-        copia_distancia = distancia;
+        copia_distancia = distancia_GVNS;
         copia_ruta = ruta;
       }else{
-        copia_distancia = distancia;
+        copia_distancia = distancia_GVNS;
         copia_ruta = ruta;
       }
     }
   }
 //std::cout << "Distancia Inicial: " << distancia << std::endl;
 //std::cout << "Distancia Mejorada: " << distancia_final << std::endl;
-  if(distancia_final < distancia){
-    distancia = distancia_final;
+  if(distancia_final < distancia_GVNS){
+    distancia_GVNS = distancia_final;
     ruta = ruta_final;
     //std::cout << "Nueva distancia: " <<  distancia << std::endl;
     InsercionEntreRutas();
@@ -496,11 +511,11 @@ std::vector<int> Busquedas::getMejorRuta(){
   return mejorRuta;
 }
 
-int Busquedas::Evaluate(std::vector<int> ruta){
+int Busquedas::Evaluate(std::vector<int> rutita){
 int resultado = 0;
 int aux = 0;
-      for(int i = 1; i < ruta.size(); i ++){
-            aux = matrix[ruta[i-1]][ruta[i]];
+      for(int i = 1; i < rutita.size(); i ++){
+            aux = matrix[rutita[i-1]][rutita[i]];
             resultado += aux;
           }
       return resultado;
@@ -513,7 +528,7 @@ int contador = 0;
 int distancia_GVNS = 0;
 std::vector<int> ruta_Intermedia = ruta;
 
-/*while(saltos <3){//Este es el Shaking.
+while(saltos <3){//Este es el Shaking.
 
 InsercionEntreRutasAleatorio();
 std::cout << "Ruta Despues del Shaking: " << std::endl;
@@ -527,16 +542,17 @@ for(int m = 0; m < ruta_Intermedia.size(); m ++){
     std::cout << ruta_Intermedia[m] << " ";
 }
   std::cout << std::endl;
-  std::cout << "Evaluate del Shaking: " << Evaluate(ruta) << " " << Evaluate(ruta_Intermedia) << std::endl;*/
+  std::cout << "Evaluate del Shaking: " << Evaluate(ruta) << " " << Evaluate(ruta_Intermedia) << std::endl;
   while(contador < 4){ //Este While es el VND.
     if(contador == 0){
       std::cout << "Entramos a Contador = 0 con: "<< Evaluate(ruta) << std::endl;
-      InsercionEntreRutas();
       std::cout << "Miramos La Ruta de Antes: " << std::endl;
       for(int m = 0; m < ruta_Intermedia.size(); m ++){
     std::cout << ruta_Intermedia[m] << " ";
   }
   std::cout << std::endl;
+      InsercionEntreRutas();
+      
   std::cout << "Miramos La Ruta Nueva: " << std::endl;
   for(int m = 0; m < ruta.size(); m ++){
     std::cout << ruta[m] << " ";
@@ -588,15 +604,18 @@ for(int m = 0; m < ruta_Intermedia.size(); m ++){
       }
     }
   }
-  //saltos++;
-  //contador = 0;
-//}
+  if(Evaluate(rutaGVNS) > Evaluate(ruta)){
+    rutaGVNS = ruta;
+  }
+  saltos++;
+  contador = 0;
+}
 std::cout << "El óptimo local Conseguido con GVNS es: "<< std::endl;
-  for(int m = 0; m < ruta.size(); m ++){
-    std::cout << ruta[m] << " ";
+  for(int m = 0; m < rutaGVNS.size(); m ++){
+    std::cout << rutaGVNS[m] << " ";
   }
   std::cout << std::endl;
-  distancia_GVNS = Evaluate(ruta);
+  distancia_GVNS = Evaluate(rutaGVNS);
   std::cout << "Con distancia: " << distancia_GVNS << std::endl;
 }
 
