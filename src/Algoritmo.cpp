@@ -104,12 +104,30 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
       }
     }
   }
-
+int auxdecision = 0;
+std::cout<< "Que tipo de busqueda quieres llevar a cabo: " << std::endl;
+std::cout<< "0.-IntercambioIntraRuta." << std::endl;
+std::cout<< "1.-IntercambioEntreRutas." << std::endl;
+std::cout<< "2.-InsercionIntraRuta." << std::endl;
+std::cout<< "3.-InsercionEntreRutas." << std::endl;
+std::cin >> auxdecision;
   Busquedas *busquedaLocal = new Busquedas(copia_matrix,rutafinal,distanciaTotal,vehicles);
-  busquedaLocal ->IntercambioIntraRuta();
-  busquedaLocal ->IntercambioEntreRutas();
-  busquedaLocal ->InsercionIntraRuta(); 
-  busquedaLocal ->InsercionEntreRutas(); 
+  if(auxdecision == 0){
+busquedaLocal ->IntercambioIntraRuta();
+  }
+  if(auxdecision == 1){
+    busquedaLocal ->IntercambioEntreRutas();
+  }
+  if(auxdecision == 2){
+    busquedaLocal ->InsercionIntraRuta(); 
+  }
+  if(auxdecision == 3){
+    busquedaLocal ->InsercionEntreRutas(); 
+  }
+  
+  
+  
+  
 }
 
 /**

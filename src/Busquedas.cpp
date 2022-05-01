@@ -528,7 +528,7 @@ int contador = 0;
 int distancia_GVNS = 0;
 std::vector<int> ruta_Intermedia = ruta;
 
-while(saltos <3){//Este es el Shaking.
+while(saltos <5){//Este es el Shaking.
 
 InsercionEntreRutasAleatorio();
 std::cout << "Ruta Despues del Shaking: " << std::endl;
