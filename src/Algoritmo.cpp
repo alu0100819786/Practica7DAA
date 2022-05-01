@@ -111,7 +111,7 @@ std::cout<< "1.-IntercambioEntreRutas." << std::endl;
 std::cout<< "2.-InsercionIntraRuta." << std::endl;
 std::cout<< "3.-InsercionEntreRutas." << std::endl;
 std::cin >> auxdecision;
-  Busquedas *busquedaLocal = new Busquedas(copia_matrix,rutafinal,distanciaTotal,vehicles);
+  Busquedas *busquedaLocal = new Busquedas(copia_matrix,rutafinal,distanciaTotal,vehicles,customers);
   if(auxdecision == 0){
 busquedaLocal ->IntercambioIntraRuta();
   }
@@ -242,8 +242,8 @@ void Algoritmo::Grasp(){
 //int a_ver = 0;
 
   //Busquedas *busqueditadePrueba = new Busquedas();
-  Busquedas *busqueda = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
-  busqueda -> GVNS();
+  Busquedas *busqueda = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles,customers);
+  busqueda -> IPrueba();
   //busquedaLocalII ->IntercambioIntraRuta();
   //mecagoenmivida = getMejorRuta();
   //std::cout << "PEPEEEE" << std::endl;

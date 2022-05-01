@@ -20,11 +20,12 @@ class Busquedas{
         std::vector<int> ruta;
         int distancia;
         int vehicles;
+        int customers;
         std::vector<int> mejorRuta;
         std::vector<int> rutaGVNS;
 
     public:
-        Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos);
+        Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos, int clientes);
         Busquedas();
         ~Busquedas();
         void IntercambioIntraRuta();
@@ -33,6 +34,7 @@ class Busquedas{
         void InsercionEntreRutas();
         void InsercionEntreRutasAleatorio();
         void GVNS();
+        void IPrueba();
         void setMejorRuta(std::vector<int> ruta);
         std::vector<int> getMejorRuta();
         int Evaluate(std::vector<int> ruta);

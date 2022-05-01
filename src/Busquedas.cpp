@@ -1,12 +1,13 @@
 #include "../includes/Busquedas.h"
 
 
-Busquedas::Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos){
+Busquedas::Busquedas(std::vector<std::vector<int> > matriz, std::vector<int> inputRuta, int inputDistancia, int vehiculos, int clientes){
 
         matrix = matriz;
         ruta = inputRuta;
         distancia = inputDistancia;
         vehicles = vehiculos;
+        customers = clientes;
         mejorRuta=inputRuta;
         rutaGVNS = inputRuta;
 }
@@ -19,7 +20,9 @@ Busquedas::~Busquedas(){
     ruta.clear();
     distancia = 0;
     vehicles = 0;
+    customers = 0;
     mejorRuta.clear();
+    rutaGVNS.clear();
 }
 
 void Busquedas::IntercambioIntraRuta(){
@@ -659,4 +662,74 @@ aux = copia_ruta[posErased];
 copia_ruta.erase(copia_ruta.begin() + posErased);
 copia_ruta.insert(copia_ruta.begin() + posInserted - 1, aux);
 ruta = copia_ruta;
+}
+
+void Busquedas::IPrueba(){
+  std::cout << "----------------------------------" << std::endl;
+
+  for(int m = 0; m < ruta.size(); m ++){
+    std::cout << ruta[m] << " ";
+  }
+  std::cout << std::endl;
+
+int contador = 0;
+int contJ = 0;
+int contZ = 0;
+int contadorhastasiguienteruta = 0;
+int conthastacero = 0;
+int size_route = 0;
+  float prueba = 0;
+  prueba = (customers / vehicles) + (customers * 0.1);
+  size_route = ceil(prueba);
+
+  for(int i = 1; i < ruta.size(); i++){
+    contadorhastasiguienteruta = 0;
+    conthastacero = 0;
+    if(ruta[i] == 0){
+      i++;
+      contador++;
+    }
+    if(contador == vehicles){
+      //mismo proceso pero de derecha a izquierda
+      std::cout << "peep" << std::endl;
+      int pene = ruta.size() -1;
+      for(int y = pene ; y >= 0; y--){
+        std::cout << ruta[y] << " ";
+      }
+      std::cout << std::endl;
+      
+      //break;
+    }
+    for( int x = i; x < ruta.size(); x++){
+      if(ruta[x] != 0){
+        contadorhastasiguienteruta++;
+      }
+      if(ruta[x] == 0){
+        contadorhastasiguienteruta+=2;
+        break;
+      }
+    }
+contZ = contadorhastasiguienteruta + i -1;
+//std::cout << "Con i en: " << i <<", La siguiente ruta empieza en: " << contadorhastasiguienteruta << std::endl;
+    for(int z = contZ; z<ruta.size(); z++){
+      if(ruta[z] != 0){
+        conthastacero++;
+      }
+      if(ruta[z] == 0 && conthastacero < size_route){
+        //std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+        //std::cout << "Podemos Insertar" <<std::endl;
+        contJ = z - conthastacero;
+        //std::cout << "Empezamos J en la posición: " << contJ << std::endl;
+        break;
+      }
+      if(ruta[z] == 0 && conthastacero == size_route){
+        //std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+        //std::cout << "No podemos insertar en esta ruta, miramos la siguiente" <<std::endl;
+        conthastacero = 0;
+      }
+      
+    }
+    
+    
+  }
 }
