@@ -243,7 +243,7 @@ void Algoritmo::Grasp(){
 
   //Busquedas *busqueditadePrueba = new Busquedas();
   Busquedas *busqueda = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles,customers);
-  busqueda -> IPrueba();
+  busqueda -> GVNS();
   //busquedaLocalII ->IntercambioIntraRuta();
   //mecagoenmivida = getMejorRuta();
   //std::cout << "PEPEEEE" << std::endl;

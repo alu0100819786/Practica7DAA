@@ -554,7 +554,7 @@ for(int m = 0; m < ruta_Intermedia.size(); m ++){
     std::cout << ruta_Intermedia[m] << " ";
   }
   std::cout << std::endl;
-      InsercionEntreRutas();
+      //InsercionEntreRutas();
       
   std::cout << "Miramos La Ruta Nueva: " << std::endl;
   for(int m = 0; m < ruta.size(); m ++){
@@ -623,58 +623,21 @@ std::cout << "El óptimo local Conseguido con GVNS es: "<< std::endl;
 }
 
 void Busquedas::InsercionEntreRutasAleatorio(){
-std::vector<int> copia_ruta = ruta;
-int conthastacero = 0;
-int inicioJ = 0;
-int posErased = 0;
-int posInserted = 0;
-int aux = 0;
-for(int i = 1; i < copia_ruta.size(); i ++){
- if(copia_ruta[i] != 0){
-        conthastacero++;
-      }
-  if(copia_ruta[i] == 0){
-        break;
-      }
-}
-//std::cout << "Contador hasta cero: " << conthastacero << std::endl;
-std::random_device rd;
-std::default_random_engine eng(rd());
-std::uniform_int_distribution<int> distr(1, conthastacero);
-posErased = distr(eng);
-//std::cout << posErased << std::endl;
-inicioJ = conthastacero +3;
-conthastacero = 0;
-for(int j = inicioJ; j<copia_ruta.size(); j++){
-    if(copia_ruta[j] != 0){
-        conthastacero++;
-      }
-  if(copia_ruta[j] == 0){
-        break;
-      }
-}
-conthastacero += inicioJ;
-std::uniform_int_distribution<int> distrJ(inicioJ, conthastacero);
-posInserted = distrJ(eng);
-//std::cout << posInserted << std::endl;
+  //std::cout << "----------------------------------" << std::endl;
 
-aux = copia_ruta[posErased];
-copia_ruta.erase(copia_ruta.begin() + posErased);
-copia_ruta.insert(copia_ruta.begin() + posInserted - 1, aux);
-ruta = copia_ruta;
-}
+  //for(int m = 0; m < ruta.size(); m ++){
+    //std::cout << ruta[m] << " ";
+  //}
+  //std::cout << std::endl;
 
-void Busquedas::IPrueba(){
-  std::cout << "----------------------------------" << std::endl;
-
-  for(int m = 0; m < ruta.size(); m ++){
-    std::cout << ruta[m] << " ";
-  }
-  std::cout << std::endl;
-
+int MovimientoI = 0;
+int MovimientoCont = 0;
+int MovimientoJ = 0;
 int contador = 0;
 int contJ = 0;
 int contZ = 0;
+int posErased = 0;
+int posInserted = 0;
 int contadorhastasiguienteruta = 0;
 int conthastacero = 0;
 int size_route = 0;
@@ -684,13 +647,16 @@ int contadorMov = 0;
   size_route = ceil(prueba);
 
   for(int i = 1; i < ruta.size(); i++){
+    if(contadorMov == 1){
+      break;
+    }
     contadorhastasiguienteruta = 0;
     conthastacero = 0;
-    if(ruta[i] == 0){
+    if(ruta[i] == 0 || (ruta[i-1] == 0 && ruta[i+1] == 0)){
       i++;
       contador++;
     }
-    if(contador == vehicles){
+    if(contador >= vehicles){
       break;
     }
     for( int x = i; x < ruta.size(); x++){
@@ -705,18 +671,32 @@ int contadorMov = 0;
 contZ = contadorhastasiguienteruta + i -1;
 //std::cout << "Con i en: " << i <<", La siguiente ruta empieza en: " << contadorhastasiguienteruta << std::endl;
     for(int z = contZ; z<ruta.size(); z++){
+      if(contadorMov == 1){
+        break;
+      }
       if(ruta[z] != 0){
         conthastacero++;
       }
+      
       if(ruta[z] == 0 && conthastacero < size_route){
-        //std::cout << "Contador hasta cero: " << conthastacero << std::endl;
-        //std::cout << "Podemos Insertar" <<std::endl;
-        contJ = z - conthastacero;
-        contadorMov = 1;
-        //std::cout << "Empezamos J en la posición: " << contJ << std::endl;
-        break;
+        if(ruta[i-1] == 0 && ruta[i+1] == 0){
+          //std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+          //std::cout << "No podemos insertar en esta ruta, miramos la siguiente" <<std::endl;
+          conthastacero = 0;
+        }else{
+          //std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+          //std::cout << "Podemos Insertar" <<std::endl;
+          contJ = z - conthastacero;
+          contadorMov = 1;
+          //std::cout << "Empezamos J en la posición: " << contJ << std::endl;
+          MovimientoJ = contJ;
+          MovimientoI = i;
+          MovimientoCont = contadorhastasiguienteruta-2;
+          break;
+        }
+        
       }
-      if(ruta[z] == 0 && conthastacero == size_route){
+      if(ruta[z] == 0 && conthastacero == size_route || (ruta[i-1] == 0 && ruta[i+1] == 0)){
         //std::cout << "Contador hasta cero: " << conthastacero << std::endl;
         //std::cout << "No podemos insertar en esta ruta, miramos la siguiente" <<std::endl;
         conthastacero = 0;
@@ -726,7 +706,53 @@ contZ = contadorhastasiguienteruta + i -1;
     
     
   }
+
   if(contadorMov == 1){
+    //std::cout << "La ruta empieza en: " << MovimientoI << std::endl;
+    //std::cout << "Dura: " << MovimientoCont << std::endl;
+    //std::cout << "La siguiente ruta empieza en: " << MovimientoJ << std::endl;
+    std::random_device rd;
+    std::default_random_engine eng(rd());
+    std::uniform_int_distribution<int> distr(MovimientoI, MovimientoCont);
+    posErased = distr(eng);
+
+
+    conthastacero = 0;
+    //std::cout<< "MovimientoJ " << MovimientoJ << std::endl;
+    //std::cout<< "Ruta Size " << ruta.size() << std::endl;
+    for(int j = MovimientoJ; j<ruta.size(); j++){
+      if(MovimientoJ == ruta.size() -2){
+      break;
+      }
+      if(ruta[j] != 0){
+        conthastacero++;
+        //std::cout << "pepe" << std::endl;
+      }
+      if(ruta[j] == 0){
+        break;
+      }
+}
+MovimientoJ = MovimientoJ -1;
+conthastacero += MovimientoJ;
+std::uniform_int_distribution<int> distrJ(MovimientoJ, conthastacero);
+posInserted = distrJ(eng);
+int auxMovimiento = 0;
+auxMovimiento = ruta[posErased];
+    //std::cout << posErased << std::endl;
+    //std::cout << posInserted << std::endl;
+//for(int m = 0; m < ruta.size(); m ++){
+    //std::cout << ruta[m] << " ";
+  //}
+  //std::cout << std::endl;
+ruta.erase(ruta.begin()+ posErased);
+ruta.insert(ruta.begin()+ posInserted, auxMovimiento);
+
+//for(int m = 0; m < ruta.size(); m ++){
+    //std::cout << ruta[m] << " ";
+  //}
+  //std::cout << std::endl;
+  }
+if(contadorMov == 2){
     contador = 0;
     contJ = 0;
     contZ = 0;
@@ -756,7 +782,210 @@ contZ = contadorhastasiguienteruta + i -1;
           }
         }
       contZ = y - contadorhastasiguienteruta +1;
-      std::cout << "Con y en: " << y <<", La siguiente ruta empieza en: " << y - contadorhastasiguienteruta << std::endl;
+      std::cout << "Con y en: " << y <<", La siguiente ruta empieza en: " << y - contadorhastasiguienteruta +1 << std::endl;
+      for (int z = contZ; z >= 0; z--){
+        if(ruta[z] != 0){
+          conthastacero++;
+        }
+        if(ruta[z] == 0 && conthastacero < size_route){
+          std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+          std::cout << "Podemos Insertar" <<std::endl;
+          contJ = z + conthastacero;
+          contadorMov = 1;
+          std::cout << "Empezamos J en la posición: " << contJ << std::endl;
+          break;
+        }
+        if(ruta[z] == 0 && conthastacero == size_route){
+          std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+          std::cout << "No podemos insertar en esta ruta, miramos la siguiente" <<std::endl;
+          conthastacero = 0;
+        }
+      }
+      }
+      std::cout << std::endl;
+    
+  }
+}
+
+void Busquedas::IPrueba(){
+  std::cout << "----------------------------------" << std::endl;
+
+  for(int m = 0; m < ruta.size(); m ++){
+    std::cout << ruta[m] << " ";
+  }
+  std::cout << std::endl;
+
+int MovimientoI = 0;
+int MovimientoCont = 0;
+int MovimientoJ = 0;
+int contador = 0;
+int contJ = 0;
+int contZ = 0;
+int posErased = 0;
+int posInserted = 0;
+int contadorhastasiguienteruta = 0;
+int conthastacero = 0;
+int size_route = 0;
+int contadorMov = 0;
+  float prueba = 0;
+  prueba = (customers / vehicles) + (customers * 0.1);
+  size_route = ceil(prueba);
+
+  for(int i = 1; i < ruta.size(); i++){
+    if(contadorMov == 1){
+      break;
+    }
+    contadorhastasiguienteruta = 0;
+    conthastacero = 0;
+    if(ruta[i] == 0 || (ruta[i-1] == 0 && ruta[i+1] == 0)){
+      i++;
+      contador++;
+    }
+    if(contador >= vehicles){
+      break;
+    }
+    for( int x = i; x < ruta.size(); x++){
+      if(ruta[x] != 0){
+        contadorhastasiguienteruta++;
+      }
+      if(ruta[x] == 0){
+        contadorhastasiguienteruta+=2;
+        break;
+      }
+    }
+contZ = contadorhastasiguienteruta + i -1;
+std::cout << "Con i en: " << i <<", La siguiente ruta empieza en: " << contadorhastasiguienteruta << std::endl;
+    for(int z = contZ; z<ruta.size(); z++){
+      if(contadorMov == 1){
+        break;
+      }
+      if(ruta[z] != 0){
+        conthastacero++;
+      }
+      
+      if(ruta[z] == 0 && conthastacero < size_route){
+        if(ruta[i-1] == 0 && ruta[i+1] == 0){
+          std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+          std::cout << "No podemos insertar en esta ruta, miramos la siguiente" <<std::endl;
+          conthastacero = 0;
+        }else{
+          std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+          std::cout << "Podemos Insertar" <<std::endl;
+          contJ = z - conthastacero;
+          contadorMov = 1;
+          std::cout << "Empezamos J en la posición: " << contJ << std::endl;
+          MovimientoJ = contJ;
+          MovimientoI = i;
+          MovimientoCont = contadorhastasiguienteruta-2;
+          break;
+        }
+        
+      }
+      if(ruta[z] == 0 && conthastacero == size_route || (ruta[i-1] == 0 && ruta[i+1] == 0)){
+        std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+        std::cout << "No podemos insertar en esta ruta, miramos la siguiente" <<std::endl;
+        conthastacero = 0;
+      }
+      
+    }
+    
+    
+  }
+
+  if(contadorMov == 1){
+    std::cout << "La ruta empieza en: " << MovimientoI << std::endl;
+    std::cout << "Dura: " << MovimientoCont << std::endl;
+    std::cout << "La siguiente ruta empieza en: " << MovimientoJ << std::endl;
+    std::random_device rd;
+    std::default_random_engine eng(rd());
+    std::uniform_int_distribution<int> distr(MovimientoI, MovimientoCont);
+    posErased = distr(eng);
+
+
+    conthastacero = 0;
+    std::cout<< "MovimientoJ " << MovimientoJ << std::endl;
+    std::cout<< "Ruta Size " << ruta.size() << std::endl;
+    for(int j = MovimientoJ; j<ruta.size(); j++){
+      if(MovimientoJ == ruta.size() -2){
+      break;
+      }
+      if(ruta[j] != 0){
+        conthastacero++;
+        std::cout << "pepe" << std::endl;
+      }
+      if(ruta[j] == 0){
+        break;
+      }
+}
+MovimientoJ = MovimientoJ -1;
+conthastacero += MovimientoJ;
+std::uniform_int_distribution<int> distrJ(MovimientoJ, conthastacero);
+posInserted = distrJ(eng);
+int auxMovimiento = 0;
+auxMovimiento = ruta[posErased];
+    std::cout << posErased << std::endl;
+    std::cout << posInserted << std::endl;
+for(int m = 0; m < ruta.size(); m ++){
+    std::cout << ruta[m] << " ";
+  }
+  std::cout << std::endl;
+ruta.erase(ruta.begin()+ posErased);
+ruta.insert(ruta.begin()+ posInserted, auxMovimiento);
+
+for(int m = 0; m < ruta.size(); m ++){
+    std::cout << ruta[m] << " ";
+  }
+  std::cout << std::endl;
+  }
+if(contadorMov == 2){
+    contador = 0;
+    contJ = 0;
+    contZ = 0;
+    contadorhastasiguienteruta = 0;
+    conthastacero = 0;
+
+    std::cout << "peep" << std::endl;
+      int pene = ruta.size() -2;
+      for(int y = pene ; y >= 0; y--){
+        contadorhastasiguienteruta = 0;
+        conthastacero = 0;
+        //std::cout << ruta[y] << " ";
+        if(ruta[y] == 0){
+          y--;
+          contador++;
+        }
+        if(contador == vehicles){
+          break;
+        }
+        for(int x = y; x >= 0; x--){
+          if(ruta[x] != 0){
+            contadorhastasiguienteruta++;
+          }
+          if(ruta[x] == 0){
+            contadorhastasiguienteruta+=2;
+            break;
+          }
+        }
+      contZ = y - contadorhastasiguienteruta +1;
+      std::cout << "Con y en: " << y <<", La siguiente ruta empieza en: " << y - contadorhastasiguienteruta +1 << std::endl;
+      for (int z = contZ; z >= 0; z--){
+        if(ruta[z] != 0){
+          conthastacero++;
+        }
+        if(ruta[z] == 0 && conthastacero < size_route){
+          std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+          std::cout << "Podemos Insertar" <<std::endl;
+          contJ = z + conthastacero;
+          contadorMov = 1;
+          std::cout << "Empezamos J en la posición: " << contJ << std::endl;
+          break;
+        }
+        if(ruta[z] == 0 && conthastacero == size_route){
+          std::cout << "Contador hasta cero: " << conthastacero << std::endl;
+          std::cout << "No podemos insertar en esta ruta, miramos la siguiente" <<std::endl;
+          conthastacero = 0;
+        }
+      }
       }
       std::cout << std::endl;
     

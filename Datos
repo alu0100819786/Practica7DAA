@@ -50,3 +50,7 @@ VND(ruta){
     Si llegamos a contador = 4 y ruta_intermedia = ruta salimos del VND devolviendo esa ruta e incrementamos el contador del GVNS para que salte de nuevo y así hasta llegar
     al máximo del contador de GVNS
 }
+
+
+0 8 25 29 37 6 22 4 7 2 0 13 19 1 32 3 9 17 31 14 0 39 34 21 35 40 38 30 18 16 0 27 33 20 11 5 24 10 28 12 0 26 36 23 15 0 0 0 0 0 0 0
+0 8 25 29 37 6 4 7 2 0 13 19 1 32 3 9 17 31 14 0 39 34 21 35 40 38 30 18 16 0 27 33 20 11 5 24 10 28 12 0 26 36 23 15 0 0 0 0 0 0 0
