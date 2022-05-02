@@ -37,29 +37,31 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
   int contruta = 0;
   int contador = 0;
   int distanciaTotal = 0;
+  int distanciaFINAL = 999999;
+  std::vector<int> rutaFINAL;
   std::vector<int> rutaParcial;
   std::vector<int> valorParcial;
   std::vector<int> rutafinal(1,0);
   long start = getCurrentTime();
-  for (int i = 0; i < matriz.size(); i++) {
+  for (int i = 0; i < copia_matrix.size(); i++) {
     int elemento = 0;
     int minimo = 999999;
-    for (int j = 1; j < matriz.size(); j++) {
-      if (isZero(matriz[i]) == true) {
+    for (int j = 1; j < copia_matrix.size(); j++) {
+      if (isZero(copia_matrix[i]) == true) {
         elemento = 0;
-        minimo = matriz[i][elemento];
+        minimo = copia_matrix[i][elemento];
         contador = size_route - 1;
-      } else if (minimo > matriz[i][j] && matriz[i][j] != 0) {
+      } else if (minimo > copia_matrix[i][j] && copia_matrix[i][j] != 0) {
         elemento = j;
-        minimo = matriz[i][j];
+        minimo = copia_matrix[i][j];
       }
     }
 
-    //std::cout << "El menor elemento en la fila: " << i << ", es el: " << elemento << ", con valor: " << matriz[i][elemento] << std::endl;
-    valorParcial.push_back(matriz[i][elemento]);
+    //std::cout << "El menor elemento en la fila: " << i << ", es el: " << elemento << ", con valor: " << copia_matrix[i][elemento] << std::endl;
+    valorParcial.push_back(copia_matrix[i][elemento]);
     rutaParcial.push_back(elemento);
-    for (int j = 0; j < matriz.size(); j++) {
-      matriz[j][elemento] = 0;
+    for (int j = 0; j < copia_matrix.size(); j++) {
+      copia_matrix[j][elemento] = 0;
     }
 
     
@@ -67,17 +69,17 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
     contador++;//
 
     //std::cout << std::endl;
-    /*for (int j = 0; j < matriz.size(); j++) {
-      for (int k = 0; k < matriz.size(); k++) {
-        std::cout << matriz[j][k] << " ";
+    /*for (int j = 0; j < copia_matrix.size(); j++) {
+      for (int k = 0; k < copia_matrix.size(); k++) {
+        std::cout << copia_matrix[j][k] << " ";
       }
       std::cout << std::endl;
     }*/
 
-    if (contador == size_route || isEmpty(matriz)) {
+    if (contador == size_route || isEmpty(copia_matrix)) {
       i = -1;
       rutaParcial.push_back(0);
-      valorParcial.push_back(matriz[elemento][0]);
+      valorParcial.push_back(copia_matrix[elemento][0]);
 
       int distancia = 0;
       for (int j = 0; j < rutaParcial.size(); j++) {
@@ -93,7 +95,7 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
       if (contruta == vehicles) {
         std::cout << std::endl;
         long totalTime = getCurrentTime() - start;
-        std::cout << matriz.size() - 1 << "\t\t\t\t" << distanciaTotal << "\t\t\t" << totalTime << std::endl;
+        std::cout << copia_matrix.size() - 1 << "\t\t\t\t" << distanciaTotal << "\t\t\t" << totalTime << std::endl;
         std::cout << "---------------------------------------------------------------" << std::endl;
         std::cout << "Mejor Ruta: " << std::endl;
         for (int j = 0; j < rutafinal.size(); j++){
@@ -111,7 +113,7 @@ std::cout<< "1.-IntercambioEntreRutas." << std::endl;
 std::cout<< "2.-InsercionIntraRuta." << std::endl;
 std::cout<< "3.-InsercionEntreRutas." << std::endl;
 std::cin >> auxdecision;
-  Busquedas *busquedaLocal = new Busquedas(copia_matrix,rutafinal,distanciaTotal,vehicles,customers);
+  Busquedas *busquedaLocal = new Busquedas(matriz,rutafinal,distanciaTotal,vehicles,customers);
   if(auxdecision == 0){
 busquedaLocal ->IntercambioIntraRuta();
   }
@@ -124,8 +126,16 @@ busquedaLocal ->IntercambioIntraRuta();
   if(auxdecision == 3){
     busquedaLocal ->InsercionEntreRutas(); 
   }
+  rutaFINAL = busquedaLocal -> getMejorRuta();
+distanciaFINAL = Evaluate(rutaFINAL);
   
-  
+  std::cout << std::endl << "--------------------------------------------------------------------------------" << std::endl;
+  std::cout << std::endl << "Mejor Distancia Final: " << distanciaFINAL << std::endl << " --------------";
+  std::cout << std::endl << "Mejor Ruta Final: " ;
+  for (int i = 0; i < rutaFINAL.size(); i++) {
+    std::cout << rutaFINAL[i] << " ";
+  }
+  std::cout << std::endl;
   
   
 }
@@ -288,6 +298,7 @@ std::cout << matriz.size() - 1 << "\t\t\t" << RLCSize << "\t\t" << contadorItera
 int Algoritmo::Evaluate(std::vector<int> rutita){
 int resultado = 0;
 int aux = 0;
+
       for(int i = 1; i < rutita.size(); i ++){
             aux = matriz[rutita[i-1]][rutita[i]];
             resultado += aux;
