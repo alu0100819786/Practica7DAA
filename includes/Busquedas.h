@@ -34,7 +34,6 @@ class Busquedas{
         void InsercionEntreRutas();
         void InsercionEntreRutasAleatorio();
         void GVNS();
-        void IPrueba();
         void setMejorRuta(std::vector<int> ruta);
         std::vector<int> getMejorRuta();
         std::vector<int> getRutaGVNS();
