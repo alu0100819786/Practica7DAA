@@ -406,6 +406,7 @@ setMejorRuta(ruta_final);
 }
 
 void Busquedas::InsercionEntreRutas(){
+  std::cout << "Entramos" << std::endl;
   std::vector<int> copia_ruta = ruta;
   std::vector<int> ruta_final = ruta;
   int distancia_GVNS = Evaluate(ruta);
@@ -418,6 +419,14 @@ void Busquedas::InsercionEntreRutas(){
   int copia_distancia = distancia_GVNS;
   int conthastacero = 1;
   int contj = 0;
+  int size_route = 0;
+  float prueba = 0;
+  prueba = (customers / vehicles) + (customers * 0.1);
+  size_route = ceil(prueba);
+  int MovimientoNoPermitido = 0;
+  int contadorCeroPermitido = 0;
+  //std::cout << "tamaño maximo " << size_route <<std::endl;
+
 //std::cout << "Distancia antes de mejorar: " << distancia << std::endl;
   for(int i = 1; i < copia_ruta.size(); i ++){
     copia_ruta = ruta;
@@ -471,11 +480,49 @@ void Busquedas::InsercionEntreRutas(){
   copia_distancia = auxEvalute;
       //std::cout << "Evaluate pepe: " << auxdistancia << std::endl;
       if(copia_distancia < distancia_final){
+        //Meter aquí la comprobación de que el movimiento sea posible.
+
+          for(int i = 1; i < copia_ruta.size(); i++){
+            if(MovimientoNoPermitido == 1){
+              break;
+            }
+            for(int j = i; j < copia_ruta.size(); j++){
+                if(copia_ruta[j] != 0){
+                  contadorCeroPermitido++;
+                }
+                if(copia_ruta[j] == 0){
+                  break;
+                }
+            }
+            std::cout << "ContadorCeroPermitido: " << contadorCeroPermitido << std::endl;
+            if(contadorCeroPermitido > size_route){
+              MovimientoNoPermitido = 1;
+            }else{
+              i= i + contadorCeroPermitido + 1;
+              contadorCeroPermitido = 0;
+            }
+
+          }
+        if(MovimientoNoPermitido == 1){
+          std::cout << "Movimiento No Permitido" << std::endl;
+          copia_distancia = distancia_GVNS;
+          copia_ruta = ruta;
+        }
+        if(MovimientoNoPermitido == 0){
+          std::cout << "Movimiento Permitido" << std::endl;
+          distancia_final = copia_distancia;
+          ruta_final = copia_ruta;
+          copia_distancia = distancia_GVNS;
+          copia_ruta = ruta;
+        }
+        /*
         distancia_final = copia_distancia;
         ruta_final = copia_ruta;
         copia_distancia = distancia_GVNS;
-        copia_ruta = ruta;
+        copia_ruta = ruta;*/
+        
       }else{
+        //std::cout << "Movimiento de Peora" << std::endl;
         copia_distancia = distancia_GVNS;
         copia_ruta = ruta;
       }
