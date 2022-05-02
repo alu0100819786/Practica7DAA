@@ -678,6 +678,7 @@ int contZ = 0;
 int contadorhastasiguienteruta = 0;
 int conthastacero = 0;
 int size_route = 0;
+int contadorMov = 0;
   float prueba = 0;
   prueba = (customers / vehicles) + (customers * 0.1);
   size_route = ceil(prueba);
@@ -690,15 +691,7 @@ int size_route = 0;
       contador++;
     }
     if(contador == vehicles){
-      //mismo proceso pero de derecha a izquierda
-      std::cout << "peep" << std::endl;
-      int pene = ruta.size() -1;
-      for(int y = pene ; y >= 0; y--){
-        std::cout << ruta[y] << " ";
-      }
-      std::cout << std::endl;
-      
-      //break;
+      break;
     }
     for( int x = i; x < ruta.size(); x++){
       if(ruta[x] != 0){
@@ -719,6 +712,7 @@ contZ = contadorhastasiguienteruta + i -1;
         //std::cout << "Contador hasta cero: " << conthastacero << std::endl;
         //std::cout << "Podemos Insertar" <<std::endl;
         contJ = z - conthastacero;
+        contadorMov = 1;
         //std::cout << "Empezamos J en la posición: " << contJ << std::endl;
         break;
       }
@@ -730,6 +724,41 @@ contZ = contadorhastasiguienteruta + i -1;
       
     }
     
+    
+  }
+  if(contadorMov == 1){
+    contador = 0;
+    contJ = 0;
+    contZ = 0;
+    contadorhastasiguienteruta = 0;
+    conthastacero = 0;
+
+    std::cout << "peep" << std::endl;
+      int pene = ruta.size() -2;
+      for(int y = pene ; y >= 0; y--){
+        contadorhastasiguienteruta = 0;
+        conthastacero = 0;
+        //std::cout << ruta[y] << " ";
+        if(ruta[y] == 0){
+          y--;
+          contador++;
+        }
+        if(contador == vehicles){
+          break;
+        }
+        for(int x = y; x >= 0; x--){
+          if(ruta[x] != 0){
+            contadorhastasiguienteruta++;
+          }
+          if(ruta[x] == 0){
+            contadorhastasiguienteruta+=2;
+            break;
+          }
+        }
+      contZ = y - contadorhastasiguienteruta +1;
+      std::cout << "Con y en: " << y <<", La siguiente ruta empieza en: " << y - contadorhastasiguienteruta << std::endl;
+      }
+      std::cout << std::endl;
     
   }
 }
