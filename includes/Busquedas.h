@@ -37,6 +37,7 @@ class Busquedas{
         void IPrueba();
         void setMejorRuta(std::vector<int> ruta);
         std::vector<int> getMejorRuta();
+        std::vector<int> getRutaGVNS();
         int Evaluate(std::vector<int> ruta);
 
 };

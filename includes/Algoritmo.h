@@ -28,6 +28,7 @@ class Algoritmo : public Problema, public Busquedas{
        
         void Greedy();
         void Grasp();
+        int Evaluate(std::vector<int> ruta);
         
 
 

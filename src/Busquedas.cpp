@@ -128,13 +128,13 @@ if(distancia_final < distancia_GVNS){
 }
 else{
   
-std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio IntraRuta es: " << std::endl;
-for(int m = 0; m < ruta_final.size(); m ++){
-    std::cout << ruta_final[m] << " ";
-  }
-std::cout << std::endl;
-std::cout << "Con una distancia de: " << distancia_final << std::endl;
-std::cout << "-----------------------------------------------------" << std::endl;
+//std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio IntraRuta es: " << std::endl;
+//for(int m = 0; m < ruta_final.size(); m ++){
+    //std::cout << ruta_final[m] << " ";
+  //}
+//std::cout << std::endl;
+//std::cout << "Con una distancia de: " << distancia_final << std::endl;
+//std::cout << "-----------------------------------------------------" << std::endl;
 setMejorRuta(ruta_final);
 }
 
@@ -238,13 +238,13 @@ if(distancia_final < distancia_GVNS){
   IntercambioEntreRutas();
 }
 else{
-std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio Entre Rutas es: " << std::endl;
-for(int m = 0; m < ruta_final.size(); m ++){
-    std::cout << ruta_final[m] << " ";
-  }
-std::cout << std::endl;
-std::cout << "Con una distancia de: " << distancia_final << std::endl;
-std::cout << "-----------------------------------------------------" << std::endl;
+//std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Intercambio Entre Rutas es: " << std::endl;
+//for(int m = 0; m < ruta_final.size(); m ++){
+  //  std::cout << ruta_final[m] << " ";
+  //}
+//std::cout << std::endl;
+//std::cout << "Con una distancia de: " << distancia_final << std::endl;
+//std::cout << "-----------------------------------------------------" << std::endl;
 setMejorRuta(ruta_final);
 }
 //Hacerla al final paso por referencia la ruta y la distancia para que al volver al grasp la devuelva modificada y poder aplicarla en las demás funciones.
@@ -392,13 +392,13 @@ if(distancia_final < distancia_GVNS){
   InsercionIntraRuta();
 }
 else{
-std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Inserción IntraRuta es: " << std::endl;
-for(int m = 0; m < ruta_final.size(); m ++){
-    std::cout << ruta_final[m] << " ";
-  }
-std::cout << std::endl;
-std::cout << "Con una distancia de: " << distancia_final << std::endl;
-std::cout << "-----------------------------------------------------" << std::endl;
+//std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Inserción IntraRuta es: " << std::endl;
+//for(int m = 0; m < ruta_final.size(); m ++){
+    //std::cout << ruta_final[m] << " ";
+  //}
+//std::cout << std::endl;
+//std::cout << "Con una distancia de: " << distancia_final << std::endl;
+//std::cout << "-----------------------------------------------------" << std::endl;
 setMejorRuta(ruta_final);
 }
 
@@ -406,7 +406,6 @@ setMejorRuta(ruta_final);
 }
 
 void Busquedas::InsercionEntreRutas(){
-  std::cout << "Entramos" << std::endl;
   std::vector<int> copia_ruta = ruta;
   std::vector<int> ruta_final = ruta;
   int distancia_GVNS = Evaluate(ruta);
@@ -430,11 +429,11 @@ void Busquedas::InsercionEntreRutas(){
 //std::cout << "Distancia antes de mejorar: " << distancia << std::endl;
   for(int i = 1; i < copia_ruta.size(); i ++){
     copia_ruta = ruta;
-    if (copia_ruta[i] == 0) {
+    if (copia_ruta[i] == 0 || (copia_ruta[i-1] == 0 && copia_ruta[i+1] == 0)) {
       i++;
       contador++;
     }
-    if (contador == vehicles) {
+    if (contador >= vehicles) {
       break;
     }
     for (int z=i+1; z<copia_ruta.size(); z++) {
@@ -449,6 +448,13 @@ void Busquedas::InsercionEntreRutas(){
     conthastacero = 1;
     for (int j=contj; j<copia_ruta.size(); j++) {
       copia_ruta = ruta;
+      if(copia_ruta[j] == 0){
+        j++;
+        if(copia_ruta[j] == 0){
+        break;
+      }
+      }
+      
       //std::cout <<"cambio: " << copia_ruta[i] << " en: " << j << std::endl;
       //resta = matrix[copia_ruta[i-1]][copia_ruta[i]] + matrix[copia_ruta[i]][copia_ruta[i+1]] + matrix[copia_ruta[j-1]][copia_ruta[j]];
       /*std::cout << "resta= ";
@@ -494,8 +500,8 @@ void Busquedas::InsercionEntreRutas(){
                   break;
                 }
             }
-            std::cout << "ContadorCeroPermitido: " << contadorCeroPermitido << std::endl;
-            if(contadorCeroPermitido > size_route){
+            //std::cout << "ContadorCeroPermitido: " << contadorCeroPermitido << std::endl;
+            if(contadorCeroPermitido >= size_route){
               MovimientoNoPermitido = 1;
             }else{
               i= i + contadorCeroPermitido + 1;
@@ -504,12 +510,12 @@ void Busquedas::InsercionEntreRutas(){
 
           }
         if(MovimientoNoPermitido == 1){
-          std::cout << "Movimiento No Permitido" << std::endl;
+          //std::cout << "Movimiento No Permitido" << std::endl;
           copia_distancia = distancia_GVNS;
           copia_ruta = ruta;
         }
         if(MovimientoNoPermitido == 0){
-          std::cout << "Movimiento Permitido" << std::endl;
+          //std::cout << "Movimiento Permitido" << std::endl;
           distancia_final = copia_distancia;
           ruta_final = copia_ruta;
           copia_distancia = distancia_GVNS;
@@ -537,13 +543,13 @@ void Busquedas::InsercionEntreRutas(){
     InsercionEntreRutas();
   }
   else{
-  std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Inserción EntreRutas es: " << std::endl;
-  for(int m = 0; m < ruta_final.size(); m ++){
-    std::cout << ruta_final[m] << " ";
-  }
-  std::cout << std::endl;
-  std::cout << "Con una distancia de: " << distancia_final << std::endl;
-  std::cout << "-----------------------------------------------------" << std::endl;
+  //std::cout << "La nueva mejor ruta (óptimo Local) conseguida con Inserción EntreRutas es: " << std::endl;
+  //for(int m = 0; m < ruta_final.size(); m ++){
+    //std::cout << ruta_final[m] << " ";
+  //}
+  //std::cout << std::endl;
+  //std::cout << "Con una distancia de: " << distancia_final << std::endl;
+  //std::cout << "-----------------------------------------------------" << std::endl;
   setMejorRuta(ruta_final);
   }
   
@@ -560,6 +566,9 @@ std::vector<int> Busquedas::getMejorRuta(){
 
   return mejorRuta;
 }
+std::vector<int> Busquedas::getRutaGVNS(){
+  return rutaGVNS;
+}
 
 int Busquedas::Evaluate(std::vector<int> rutita){
 int resultado = 0;
@@ -572,7 +581,7 @@ int aux = 0;
 }
 
 void Busquedas::GVNS(){
-
+    
 int saltos = 0;
 int contador = 0;
 int distancia_GVNS = 0;
@@ -581,34 +590,34 @@ std::vector<int> ruta_Intermedia = ruta;
 while(saltos <5){//Este es el Shaking.
 
 InsercionEntreRutasAleatorio();
-std::cout << "Ruta Despues del Shaking: " << std::endl;
-for(int m = 0; m < ruta.size(); m ++){
-    std::cout << ruta[m] << " ";
-  }
-  std::cout << std::endl;
+//std::cout << "Ruta Despues del Shaking: " << std::endl;
+//for(int m = 0; m < ruta.size(); m ++){
+    //std::cout << ruta[m] << " ";
+  //}
+  //std::cout << std::endl;
 
 ruta_Intermedia = ruta;
-for(int m = 0; m < ruta_Intermedia.size(); m ++){
-    std::cout << ruta_Intermedia[m] << " ";
-}
-  std::cout << std::endl;
-  std::cout << "Evaluate del Shaking: " << Evaluate(ruta) << " " << Evaluate(ruta_Intermedia) << std::endl;
+//for(int m = 0; m < ruta_Intermedia.size(); m ++){
+    //std::cout << ruta_Intermedia[m] << " ";
+//}
+  //std::cout << std::endl;
+  //std::cout << "Evaluate del Shaking: " << Evaluate(ruta) << " " << Evaluate(ruta_Intermedia) << std::endl;
   while(contador < 4){ //Este While es el VND.
     if(contador == 0){
-      std::cout << "Entramos a Contador = 0 con: "<< Evaluate(ruta) << std::endl;
-      std::cout << "Miramos La Ruta de Antes: " << std::endl;
-      for(int m = 0; m < ruta_Intermedia.size(); m ++){
-    std::cout << ruta_Intermedia[m] << " ";
-  }
-  std::cout << std::endl;
-      //InsercionEntreRutas();
+     // std::cout << "Entramos a Contador = 0 con: "<< Evaluate(ruta) << std::endl;
+     // std::cout << "Miramos La Ruta de Antes: " << std::endl;
+      //for(int m = 0; m < ruta_Intermedia.size(); m ++){
+    //std::cout << ruta_Intermedia[m] << " ";
+  //}
+  //std::cout << std::endl;
+      InsercionEntreRutas();
       
-  std::cout << "Miramos La Ruta Nueva: " << std::endl;
-  for(int m = 0; m < ruta.size(); m ++){
-    std::cout << ruta[m] << " ";
-  }
-  std::cout << std::endl;
-      std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+  //std::cout << "Miramos La Ruta Nueva: " << std::endl;
+  //for(int m = 0; m < ruta.size(); m ++){
+    //std::cout << ruta[m] << " ";
+  //}
+  //std::cout << std::endl;
+      //std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
       if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
         contador = 1;
       }
@@ -618,9 +627,9 @@ for(int m = 0; m < ruta_Intermedia.size(); m ++){
       }
     }
     if(contador == 1){
-      std::cout << "Entramos a Contador = 1 con: "<< Evaluate(ruta) << std::endl;
+      //std::cout << "Entramos a Contador = 1 con: "<< Evaluate(ruta) << std::endl;
       InsercionIntraRuta();
-      std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+      //std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
       if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
         contador = 2;
       }
@@ -630,9 +639,9 @@ for(int m = 0; m < ruta_Intermedia.size(); m ++){
       }
     }
     if(contador == 2){
-      std::cout << "Entramos a Contador = 2 con: "<< Evaluate(ruta) << std::endl;
+      //std::cout << "Entramos a Contador = 2 con: "<< Evaluate(ruta) << std::endl;
       IntercambioEntreRutas();
-      std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+      //std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
       if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
         contador = 3;
       }
@@ -642,9 +651,9 @@ for(int m = 0; m < ruta_Intermedia.size(); m ++){
       }
     }
     if(contador == 3){
-      std::cout << "Entramos a Contador = 3 con: "<< Evaluate(ruta) << std::endl;
+      //std::cout << "Entramos a Contador = 3 con: "<< Evaluate(ruta) << std::endl;
       IntercambioIntraRuta();
-      std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+      //std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
       if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
         contador = 4;
       }
@@ -660,18 +669,18 @@ for(int m = 0; m < ruta_Intermedia.size(); m ++){
   saltos++;
   contador = 0;
 }
-std::cout << "El óptimo local Conseguido con GVNS es: "<< std::endl;
-  for(int m = 0; m < rutaGVNS.size(); m ++){
-    std::cout << rutaGVNS[m] << " ";
-  }
-  std::cout << std::endl;
+//std::cout << "El óptimo local Conseguido con GVNS es: "<< std::endl;
+  //for(int m = 0; m < rutaGVNS.size(); m ++){
+    //std::cout << rutaGVNS[m] << " ";
+  //}
+  //std::cout << std::endl;
   distancia_GVNS = Evaluate(rutaGVNS);
-  std::cout << "Con distancia: " << distancia_GVNS << std::endl;
+  //std::cout << "Con distancia: " << distancia_GVNS << std::endl;
 }
 
 void Busquedas::InsercionEntreRutasAleatorio(){
   //std::cout << "----------------------------------" << std::endl;
-
+//std::cout << "Entramos" << std::endl;
   //for(int m = 0; m < ruta.size(); m ++){
     //std::cout << ruta[m] << " ";
   //}
@@ -694,12 +703,13 @@ int contadorMov = 0;
   size_route = ceil(prueba);
 
   for(int i = 1; i < ruta.size(); i++){
+    //std::cout<< "la puta i: " << i << std::endl;
     if(contadorMov == 1){
       break;
     }
     contadorhastasiguienteruta = 0;
     conthastacero = 0;
-    if(ruta[i] == 0 || (ruta[i-1] == 0 && ruta[i+1] == 0)){
+    if(ruta[i] == 0){
       i++;
       contador++;
     }
@@ -760,6 +770,8 @@ contZ = contadorhastasiguienteruta + i -1;
     //std::cout << "La siguiente ruta empieza en: " << MovimientoJ << std::endl;
     std::random_device rd;
     std::default_random_engine eng(rd());
+    //std::cout<< ruta[MovimientoI]<<std::endl;
+    //std::cout<<MovimientoI<< "/" << MovimientoCont<<std::endl;
     std::uniform_int_distribution<int> distr(MovimientoI, MovimientoCont);
     posErased = distr(eng);
 
@@ -779,18 +791,22 @@ contZ = contadorhastasiguienteruta + i -1;
         break;
       }
 }
+
 MovimientoJ = MovimientoJ -1;
 conthastacero += MovimientoJ;
 std::uniform_int_distribution<int> distrJ(MovimientoJ, conthastacero);
 posInserted = distrJ(eng);
 int auxMovimiento = 0;
-auxMovimiento = ruta[posErased];
+auxMovimiento = ruta[posErased];//pepe
+//std::cout << "Salimos" << std::endl;
+
     //std::cout << posErased << std::endl;
     //std::cout << posInserted << std::endl;
 //for(int m = 0; m < ruta.size(); m ++){
     //std::cout << ruta[m] << " ";
   //}
   //std::cout << std::endl;
+  
 ruta.erase(ruta.begin()+ posErased);
 ruta.insert(ruta.begin()+ posInserted, auxMovimiento);
 
@@ -799,59 +815,7 @@ ruta.insert(ruta.begin()+ posInserted, auxMovimiento);
   //}
   //std::cout << std::endl;
   }
-if(contadorMov == 2){
-    contador = 0;
-    contJ = 0;
-    contZ = 0;
-    contadorhastasiguienteruta = 0;
-    conthastacero = 0;
-
-    std::cout << "peep" << std::endl;
-      int pene = ruta.size() -2;
-      for(int y = pene ; y >= 0; y--){
-        contadorhastasiguienteruta = 0;
-        conthastacero = 0;
-        //std::cout << ruta[y] << " ";
-        if(ruta[y] == 0){
-          y--;
-          contador++;
-        }
-        if(contador == vehicles){
-          break;
-        }
-        for(int x = y; x >= 0; x--){
-          if(ruta[x] != 0){
-            contadorhastasiguienteruta++;
-          }
-          if(ruta[x] == 0){
-            contadorhastasiguienteruta+=2;
-            break;
-          }
-        }
-      contZ = y - contadorhastasiguienteruta +1;
-      std::cout << "Con y en: " << y <<", La siguiente ruta empieza en: " << y - contadorhastasiguienteruta +1 << std::endl;
-      for (int z = contZ; z >= 0; z--){
-        if(ruta[z] != 0){
-          conthastacero++;
-        }
-        if(ruta[z] == 0 && conthastacero < size_route){
-          std::cout << "Contador hasta cero: " << conthastacero << std::endl;
-          std::cout << "Podemos Insertar" <<std::endl;
-          contJ = z + conthastacero;
-          contadorMov = 1;
-          std::cout << "Empezamos J en la posición: " << contJ << std::endl;
-          break;
-        }
-        if(ruta[z] == 0 && conthastacero == size_route){
-          std::cout << "Contador hasta cero: " << conthastacero << std::endl;
-          std::cout << "No podemos insertar en esta ruta, miramos la siguiente" <<std::endl;
-          conthastacero = 0;
-        }
-      }
-      }
-      std::cout << std::endl;
-    
-  }
+  
 }
 
 void Busquedas::IPrueba(){

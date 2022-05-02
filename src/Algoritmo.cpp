@@ -142,7 +142,7 @@ void Algoritmo::Grasp(){
   float prueba = 0;
   prueba = (customers / vehicles) + (customers * 0.1);
   size_route = ceil(prueba);
-
+  long totalTime;
   int iterations = getNumberIterations();
   int RLCSize = getRLCVectorSize();
   int noImprove = getTimesWithoutImprove();
@@ -151,10 +151,13 @@ void Algoritmo::Grasp(){
 	std::cout << "________________________________________________________________________________________________________________________" << std::endl;
 
   long start = getCurrentTime();
-  //std::vector<int> mecagoenmivida;
+  std::vector<int> mecagoenmivida;
+  int mecagoenmividaV = 0;
   std::vector<int> valorParcial;
   std::vector<int> rutaSolucion;
   std::vector<int> rutaParcial;
+  std::vector<int> rutaFINAL;
+  int distanciaFINAL = 99999;
   int mejorDistancia = 9999999;
   int contadorIteraciones = 0;
   int contadorNoImprove = 0;
@@ -211,8 +214,7 @@ void Algoritmo::Grasp(){
         if (contruta == vehicles) {
           //Llamar aquí a las busquedas y tenemso que conseguir su resultado ya que ese resultado va a ser el rutasolución y ademas conseguir su distancia total
           //Para poder ponerla en la tabla.
-          long totalTime = getCurrentTime() - start;
-          std::cout << matriz.size() - 1 << "\t\t\t" << RLCSize << "\t\t" << contadorIteraciones + 1 << "\t\t\t\t" << distanciaTotal << "\t\t\t" << totalTime << std::endl;
+          totalTime = getCurrentTime() - start;
           if (mejorDistancia > distanciaTotal) {
             mejorDistancia = distanciaTotal;
             rutaSolucion = rutafinal;
@@ -230,20 +232,41 @@ void Algoritmo::Grasp(){
         }
       }
     }
+    
+    Busquedas *busqueda = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles,customers);
+  busqueda -> GVNS();
+    //aqui. llamar GVNS.
+  mecagoenmivida = busqueda -> getRutaGVNS();
+  
+  //std::cout << "pepeeeeeee" << std::endl;
+  //for (int i = 0; i < mecagoenmivida.size(); i++) {
+    //std::cout << mecagoenmivida[i] << " ";
+  //}
+  //std::cout << std::endl;
+  mecagoenmividaV = Evaluate(mecagoenmivida);
+std::cout << matriz.size() - 1 << "\t\t\t" << RLCSize << "\t\t" << contadorIteraciones + 1 << "\t\t\t\t" << mecagoenmividaV << "\t\t\t" << totalTime << std::endl;
+  //std::cout << "MeCagoEnMiVida: " << mecagoenmividaV << std::endl;
+  if(mecagoenmividaV < distanciaFINAL){
+    rutaFINAL = mecagoenmivida;
+    distanciaFINAL = mecagoenmividaV;
   }
+  
+  }
+
+  
   std::cout << std::endl << "--------------------------------------------------------------------------------" << std::endl;
-  std::cout << std::endl << "Mejor Distancia Final: " << mejorDistancia << std::endl << " --------------";
+  std::cout << std::endl << "Mejor Distancia Final: " << distanciaFINAL << std::endl << " --------------";
   std::cout << std::endl << "Mejor Ruta Final: " ;
-  for (int i = 0; i < rutaSolucion.size(); i++) {
-    std::cout << rutaSolucion[i] << " ";
+  for (int i = 0; i < rutaFINAL.size(); i++) {
+    std::cout << rutaFINAL[i] << " ";
   }
   std::cout << std::endl;
 
 //int a_ver = 0;
 
   //Busquedas *busqueditadePrueba = new Busquedas();
-  Busquedas *busqueda = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles,customers);
-  busqueda -> InsercionEntreRutas();
+        //Busquedas *busqueda = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles,customers);
+        //busqueda -> GVNS();
   //busquedaLocalII ->IntercambioIntraRuta();
   //mecagoenmivida = getMejorRuta();
   //std::cout << "PEPEEEE" << std::endl;
@@ -260,5 +283,15 @@ void Algoritmo::Grasp(){
   //Busquedas *busquedaLocalINE = new Busquedas(copia_matrix,rutaSolucion,mejorDistancia,vehicles);
   //busquedaLocalINE ->InsercionEntreRutas(); 
 
+}
+
+int Algoritmo::Evaluate(std::vector<int> rutita){
+int resultado = 0;
+int aux = 0;
+      for(int i = 1; i < rutita.size(); i ++){
+            aux = matriz[rutita[i-1]][rutita[i]];
+            resultado += aux;
+          }
+      return resultado;
 }
 
