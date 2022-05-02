@@ -244,7 +244,7 @@ void Algoritmo::Grasp(){
   //}
   //std::cout << std::endl;
   mecagoenmividaV = Evaluate(mecagoenmivida);
-std::cout << matriz.size() - 1 << "\t\t\t" << RLCSize << "\t\t" << contadorIteraciones + 1 << "\t\t\t\t" << mecagoenmividaV << "\t\t\t" << totalTime << std::endl;
+std::cout << matriz.size() - 1 << "\t\t\t" << RLCSize << "\t\t" << contadorIteraciones << "\t\t\t\t" << mecagoenmividaV << "\t\t\t" << totalTime << std::endl;
   //std::cout << "MeCagoEnMiVida: " << mecagoenmividaV << std::endl;
   if(mecagoenmividaV < distanciaFINAL){
     rutaFINAL = mecagoenmivida;
