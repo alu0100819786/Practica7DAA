@@ -106,27 +106,12 @@ std::cout << std::endl << "ProblemSize\t\tDistanciaTotalRecorrida\t\tCPUTime" <<
       }
     }
   }
-int auxdecision = 0;
-std::cout<< "Que tipo de busqueda quieres llevar a cabo: " << std::endl;
-std::cout<< "0.-IntercambioIntraRuta." << std::endl;
-std::cout<< "1.-IntercambioEntreRutas." << std::endl;
-std::cout<< "2.-InsercionIntraRuta." << std::endl;
-std::cout<< "3.-InsercionEntreRutas." << std::endl;
-std::cin >> auxdecision;
+/**
+*MODIFICACIÓN LLAMADA A GVNS DESDE GREEDY.
+*/
   Busquedas *busquedaLocal = new Busquedas(matriz,rutafinal,distanciaTotal,vehicles,customers);
-  if(auxdecision == 0){
-busquedaLocal ->IntercambioIntraRuta();
-  }
-  if(auxdecision == 1){
-    busquedaLocal ->IntercambioEntreRutas();
-  }
-  if(auxdecision == 2){
-    busquedaLocal ->InsercionIntraRuta(); 
-  }
-  if(auxdecision == 3){
-    busquedaLocal ->InsercionEntreRutas(); 
-  }
-  rutaFINAL = busquedaLocal -> getMejorRuta();
+  busquedaLocal -> GVNS();
+  rutaFINAL = busquedaLocal -> getRutaGVNS();
 distanciaFINAL = Evaluate(rutaFINAL);
   
   std::cout << std::endl << "--------------------------------------------------------------------------------" << std::endl;

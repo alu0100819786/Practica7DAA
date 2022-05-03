@@ -580,6 +580,10 @@ int aux = 0;
       return resultado;
 }
 
+/**
+* MODIFICACIÓN REALIZADA JUSTO DEBAJO EN LA FUNCIÓN GVNS().
+* LA LLAMADA SE REALIZA DESDE LA EJECUCIÓN DE GREEDY EN EL FICHERO ALGORITMO.CPP
+*/
 void Busquedas::GVNS(){
     
 int saltos = 0;
@@ -590,34 +594,13 @@ std::vector<int> ruta_Intermedia = ruta;
 while(saltos <5){//Este es el Shaking.
 
 InsercionEntreRutasAleatorio();
-//std::cout << "Ruta Despues del Shaking: " << std::endl;
-//for(int m = 0; m < ruta.size(); m ++){
-    //std::cout << ruta[m] << " ";
-  //}
-  //std::cout << std::endl;
 
 ruta_Intermedia = ruta;
-//for(int m = 0; m < ruta_Intermedia.size(); m ++){
-    //std::cout << ruta_Intermedia[m] << " ";
-//}
-  //std::cout << std::endl;
-  //std::cout << "Evaluate del Shaking: " << Evaluate(ruta) << " " << Evaluate(ruta_Intermedia) << std::endl;
-  while(contador < 4){ //Este While es el VND.
+
+  while(contador < 2){ //Este While es el VND.
     if(contador == 0){
-     // std::cout << "Entramos a Contador = 0 con: "<< Evaluate(ruta) << std::endl;
-     // std::cout << "Miramos La Ruta de Antes: " << std::endl;
-      //for(int m = 0; m < ruta_Intermedia.size(); m ++){
-    //std::cout << ruta_Intermedia[m] << " ";
-  //}
-  //std::cout << std::endl;
       InsercionEntreRutas();
       
-  //std::cout << "Miramos La Ruta Nueva: " << std::endl;
-  //for(int m = 0; m < ruta.size(); m ++){
-    //std::cout << ruta[m] << " ";
-  //}
-  //std::cout << std::endl;
-      //std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
       if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
         contador = 1;
       }
@@ -627,35 +610,9 @@ ruta_Intermedia = ruta;
       }
     }
     if(contador == 1){
-      //std::cout << "Entramos a Contador = 1 con: "<< Evaluate(ruta) << std::endl;
-      InsercionIntraRuta();
-      //std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
+      IntercambioEntreRutas();
       if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
         contador = 2;
-      }
-      else{
-        contador = 0;
-        ruta_Intermedia = ruta;
-      }
-    }
-    if(contador == 2){
-      //std::cout << "Entramos a Contador = 2 con: "<< Evaluate(ruta) << std::endl;
-      IntercambioEntreRutas();
-      //std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
-      if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
-        contador = 3;
-      }
-      else{
-        contador = 0;
-        ruta_Intermedia = ruta;
-      }
-    }
-    if(contador == 3){
-      //std::cout << "Entramos a Contador = 3 con: "<< Evaluate(ruta) << std::endl;
-      IntercambioIntraRuta();
-      //std::cout << Evaluate(ruta_Intermedia) << " " << Evaluate(ruta)<< std::endl;
-      if(Evaluate(ruta_Intermedia) <= Evaluate(ruta)){
-        contador = 4;
       }
       else{
         contador = 0;
@@ -669,13 +626,8 @@ ruta_Intermedia = ruta;
   saltos++;
   contador = 0;
 }
-//std::cout << "El óptimo local Conseguido con GVNS es: "<< std::endl;
-  //for(int m = 0; m < rutaGVNS.size(); m ++){
-    //std::cout << rutaGVNS[m] << " ";
-  //}
-  //std::cout << std::endl;
+
   distancia_GVNS = Evaluate(rutaGVNS);
-  //std::cout << "Con distancia: " << distancia_GVNS << std::endl;
 }
 
 void Busquedas::InsercionEntreRutasAleatorio(){
